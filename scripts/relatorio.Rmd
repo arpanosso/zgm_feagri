@@ -5,6 +5,56 @@ date: "29/10/2020"
 output: html_document
 ---
 
-# análise IQS
+# Análise IQS
 
-## entrada de dados
+```{r message=FALSE,error=FALSE}
+# Caregando os pacotes no R
+library(tidyverse)
+library(agricolae)
+library(ExpDes.pt)
+```
+
+
+## Validação de dados
+### Entrada
+```{r}
+dados<-read.table(
+  "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/IQS.txt",
+  h=TRUE,sep="\t")
+glimpse(dados) # Vislumbre
+
+levels(factor(dados$ciclo))
+levels(factor(dados$tratamento))
+levels(factor(dados$linha_entrelinha))
+levels(factor(dados$profundidade))
+```
+### Gráficos
+
+```{r,echo=FALSE}
+### função para aplicar em cada painel a barra de erro
+errFun <- function(x) {
+  data.frame(ymin = mean(x) - sd(x)/sqrt(length(x)), 
+             ymax = mean(x) + sd(x)/sqrt(length(x)), 
+             y = mean(x))
+  }
+```
+
+
+
+
+```{r}
+dados %>% 
+  group_by(ciclo,tratamento,profundidade,linha_entrelinha) %>%
+  ggplot(aes(x=ciclo, y=iqs,fill=as.factor(profundidade)))+
+  stat_summary(fun = mean, geom = "bar",
+               position = position_dodge()) + 
+  stat_summary(fun.data = errFun, geom = "linerange",
+               position = position_dodge(.9)) + 
+  facet_wrap(~ tratamento) +
+  labs(x="Ciclo", y = "IQS",fill="Profundidade")+
+   theme_minimal() +
+   scale_fill_manual(values=c('#999999','#E69F00','#FF6347'))
+```
+
+
+
