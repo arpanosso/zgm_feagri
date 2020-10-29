@@ -11,18 +11,28 @@ output:
     highlight: tango
 ---
 
-# Análise IQS
+# 1 Índice de Qualidade do Solo (IQS)
 
 ```{r message=FALSE,error=FALSE}
 # Caregando os pacotes no R
 library(tidyverse)
 library(agricolae)
 library(ExpDes.pt)
+library(pals)
 ```
 
 
-## Validação de dados
-### Entrada
+```{r,echo=FALSE}
+### função para aplicar em cada painel a barra de erro
+errFun <- function(x) {
+  data.frame(ymin = mean(x) - sd(x)/sqrt(length(x)), 
+             ymax = mean(x) + sd(x)/sqrt(length(x)), 
+             y = mean(x))
+  }
+```
+
+## 1.1 Validação de dados
+### Entrada dos dados
 ```{r}
 dados<-read.table(
   "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/IQS.txt",
@@ -34,19 +44,7 @@ levels(factor(dados$tratamento))
 levels(factor(dados$linha_entrelinha))
 levels(factor(dados$profundidade))
 ```
-### Gráficos
-
-```{r,echo=FALSE}
-### função para aplicar em cada painel a barra de erro
-errFun <- function(x) {
-  data.frame(ymin = mean(x) - sd(x)/sqrt(length(x)), 
-             ymax = mean(x) + sd(x)/sqrt(length(x)), 
-             y = mean(x))
-  }
-```
-
-
-
+## 1.2 Gráficos
 
 ```{r}
 dados %>% 
@@ -62,5 +60,67 @@ dados %>%
    scale_fill_manual(values=c('#999999','#E69F00','#FF6347'))
 ```
 
+# 2 Produção da cana-de-açúcar
+## 2.1 Validação de dados
+### Entrada dos dados
+```{r}
+dados<-read.table(
+  "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/producao.txt",
+  h=TRUE,sep="\t")
+dados<-dados %>% 
+  select(ciclo,tratamento,bloco,produção)
+glimpse(dados) # Vislumbre
 
+levels(factor(dados$ciclo))
+levels(factor(dados$tratamento))
+```
+
+## 2.1 Gráficos
+
+```{r}
+dados %>% 
+  group_by(ciclo,tratamento) %>%
+  ggplot(aes(x=ciclo, y=produção,fill=as.factor(tratamento)))+
+  stat_summary(fun = mean, geom = "bar",
+               position = position_dodge()) + 
+  stat_summary(fun.data = errFun, geom = "linerange",
+               position = position_dodge(.9)) + 
+  facet_wrap(~ tratamento) +
+  labs(x="Ciclo", y = "Produção (t/ha)",fill="Tratamento")+
+  theme_minimal()+
+  scale_fill_manual(values= pals::brewer.accent(n=13))
+```
+
+# 3 Atributos do solo
+## 3.1 Validação de dados
+### Entrada dos dados
+```{r}
+dados<-read.table(
+  "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/horizontes.txt",
+  h=TRUE,sep="\t")
+glimpse(dados) # Vislumbre
+
+levels(factor(dados$ciclo))
+levels(factor(dados$tratamento))
+dados<-dados %>% 
+  mutate(linha_entrelinha = if_else(linha_entrelinha=="el","entrelinha","linha"))
+levels(factor(dados$linha_entrelinha))
+levels(factor(dados$profundidade))
+```
+
+# 4 Biomassa Radicular
+## 4.1 Validação de dados
+### Entrada dos dados
+```{r}
+dados<-read.table(
+  "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/biomassaRad.txt",
+  h=TRUE,sep="\t")
+names(dados)<-c("ciclo","tratamento","linha_entrelinha","profundidade","bloco","biomassa_raizes")
+glimpse(dados) # Vislumbre
+levels(factor(dados$ciclo))
+levels(factor(dados$tratamento))
+dados<-dados %>% 
+  mutate(linha_entrelinha = if_else(linha_entrelinha=="el","entrelinha",if_else(linha_entrelinha=="l","linha","ca")))
+levels(factor(dados$linha_entrelinha))
+```
 
