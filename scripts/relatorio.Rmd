@@ -1,0 +1,10 @@
+---
+title: "Relatório de Análise"
+author: "Alan Rodrigo Panosso"
+date: "29/10/2020"
+output: html_document
+---
+
+# análise IQS
+
+## entrada de dados
