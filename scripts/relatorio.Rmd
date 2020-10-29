@@ -2,7 +2,13 @@
 title: "Relatório de Análise"
 author: "Alan Rodrigo Panosso"
 date: "29/10/2020"
-output: html_document
+output: 
+  rmdformats::readthedown:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    highlight: tango
 ---
 
 # Análise IQS
