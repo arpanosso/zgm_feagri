@@ -16,9 +16,17 @@ output:
 ```{r message=FALSE,error=FALSE}
 # Caregando os pacotes no R
 library(tidyverse)
+library(nlme)
+library(psych)
 library(agricolae)
 library(ExpDes.pt)
 library(pals)
+library(car)
+library(multcompView)
+library(lsmeans)
+library(rcompanion)
+library(ggpubr)
+library(rstatix)
 ```
 
 
@@ -27,8 +35,7 @@ library(pals)
 errFun <- function(x) {
   data.frame(ymin = mean(x) - sd(x)/sqrt(length(x)), 
              ymax = mean(x) + sd(x)/sqrt(length(x)), 
-             y = mean(x))
-  }
+             y = mean(x))}
 ```
 
 ## 1.1 Validação de dados
@@ -44,6 +51,7 @@ dados <- dados %>%
     cobertura = sub('\\_.*','',tratamento),
     PDS = sub('.*\\_','',tratamento)
   )
+
 levels(factor(dados$cobertura))
 levels(factor(dados$PDS))
 levels(factor(dados$ciclo))
@@ -51,13 +59,12 @@ levels(factor(dados$tratamento))
 levels(factor(dados$linha_entrelinha))
 levels(factor(dados$profundidade))
 
-
-
 adicional <- dados %>% 
   filter(tratamento == "sem cobertura_pc")
 dados<- dados %>% 
   filter(tratamento != "sem cobertura_pc")
 ```
+
 ## 1.2 Gráficos
 
 ```{r}
@@ -86,6 +93,7 @@ cob<-levels(factor(dados$cobertura))
 prof<-levels(factor(dados$profundidade)) 
 posição<-levels(factor(dados$linha_entrelinha))
 
+# Laços para várias análises
 for(i in 1:length(cob)){
   for(j in 1:length(prof)){
       for(k in 1:length(posição)){
@@ -93,14 +101,17 @@ for(i in 1:length(cob)){
         print(paste(cob[i],prof[j],posição[k]))
         print("-----------------------------------------")
         
+        # Criando dados auxiliar
         da<-dados %>% 
           filter(cobertura==cob[i],
                 profundidade==prof[j],
                 linha_entrelinha==posição[k])
-        
+ 
+        # Criando os dados com o trat adicional
         add <- adicional %>% 
           filter(profundidade==prof[j],linha_entrelinha==posição[k])
-         
+        
+        # Juntandos os dois dados para o desdobramento de graus de liberdade
         dd<-rbind(da,add)
         y<-dd$iqs
         trat<-as.factor(paste(dd$PDS,dd$ciclo,sep="_"))
@@ -123,29 +134,45 @@ for(i in 1:length(cob)){
           )
         contrasts(trat) <- contrastes
         modelo.contrastes<-aov(y~trat)
-        
         print("------------------ Fatorial vs Testemunha adicional -------------")
         print(summary(modelo.contrastes, 
         split= list(trat= 
-                      list("Add vs. Trat (ciclo_1)"= 1,
-                           "Add vs. Trat (ciclo_2)"= 2,
-                           "Add vs. Trat (ciclo_3)" = 3,
-                           "Add vs. Trat (ciclo_4)" = 4,
+                      list("Add vs. Trat (ciclo_1)"=1,
+                           "Add vs. Trat (ciclo_2)"=2,
+                           "Add vs. Trat (ciclo_3)"=3,
+                           "Add vs. Trat (ciclo_4)"=4,
                            "Fatorial"= 5:15)))
         )
-
-        
-        print("------------------ Análise de Parcelas Subdivididas -------------")
-        psub2.dbc(da$PDS,da$ciclo,da$bloco,da$iqs,
-                   quali=c(TRUE,TRUE), mcomp = "tukey", 
-                   fac.names = c("PDS","CICLO"))
         cat("\n")
         
-      }}
+        print("------------------ Teste de  Mauchly’s para esfericidade -------------")
+       dm<-da %>% 
+          pivot_wider(names_from = ciclo, values_from = iqs) 
+       dm <- dm[-(1:6)]
+       
+      # Calculando a diferença entre grupos
+      grp.diff <- dm %>%
+         transmute(
+            `t1-t2` = `1` - `2`,
+            `t1-t3` = `1` - `3`,
+            `t1-t4` = `1` - `4`,
+            `t2-t3` = `2` - `3`,
+            `t3-t4` = `2` - `4`,
+            `t3-t4` = `3` - `4`,
+         )
+      grp.diff  %>% map(var)
+      
+      res <- anova_test(data = da, dv = iqs, wid = bloco, within = ciclo)
+      print(res$`Mauchly's Test for Sphericity`)
+
+      
+      print("------------------ Análise de Parcelas Subdivididas -------------")
+       psub2.dbc(da$PDS,da$ciclo,da$bloco,da$iqs,
+                    quali=c(TRUE,TRUE), mcomp = "tukey", 
+                    fac.names = c("PDS","CICLO"))
+       cat("\n")
+  }}
 }
-
-
-
 ```
 
 # 2 Produção da cana-de-açúcar
@@ -210,5 +237,93 @@ levels(factor(dados$tratamento))
 dados<-dados %>% 
   mutate(linha_entrelinha = if_else(linha_entrelinha=="el","entrelinha",if_else(linha_entrelinha=="l","linha","ca")))
 levels(factor(dados$linha_entrelinha))
+```
+
+# Abordagem em MRT
+```{r}
+# modelAR1 = lme(Calories.per.day ~ Instruction + Month + Instruction*Month,
+#             random = ~1|Student,
+#             correlation = corAR1(form = ~ Month | Student),
+#             data=Data,
+#             method="REML")
+# 
+# modelcorARMA= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,
+#                   random = ~1|Student,
+#                   correlation = corARMA(form = ~ 1 | Student, q = 1),
+#                   data=Data,
+#                   method="REML")
+# 
+# modelcorCompSymm= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,
+#                random = ~1|Student,
+#                correlation = corCompSymm(form = ~ Month | Student),
+#                data=Data,
+#                method="REML")
+# 
+# modelcorCAR1= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,
+#                       random = ~1|Student,
+#                       correlation = corCAR1(form = ~ Month | Student),
+#                       data=Data,
+#                       method="REML")
+# 
+# modelcorExp= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,
+#                   random = ~1|Student,
+#                   correlation = corExp(form = ~ Month | Student),
+#                   data=Data,
+#                   method="REML")
+# 
+# modelcorGaus= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,
+#                  random = ~1|Student,
+#                  correlation = corGaus(form = ~ Month | Student),
+#                  data=Data,
+#                  method="REML")
+# 
+# modelcorLin= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,
+#                   random = ~1|Student,
+#                   correlation = corLin(form = ~ Month | Student),
+#                   data=Data,
+#                   method="REML")
+# 
+# modelccorRatio=lme(Calories.per.day ~ Instruction + Month + Instruction*Month,
+#                  random = ~1|Student,
+#                  correlation = corRatio(form = ~ Month | Student),
+#                  data=Data,
+#                  method="REML")
+# 
+# modelcorSpher=lme(Calories.per.day ~ Instruction + Month + Instruction*Month,
+#                    random = ~1|Student,
+#                    correlation = corSpher(form = ~ Month | Student),
+#                    data=Data,
+#                    method="REML")
+# 
+# anova(modelAR1,
+#       modelcorCompSymm,
+#       modelcorCAR1,
+#       modelcorARMA,
+#       modelcorExp,
+#       modelcorGaus,
+#       modelcorLin,
+#       modelccorRatio,
+#       modelcorSpher)
+# 
+
+#       
+#       print("------------------ Análise de Medidas Repetidas -------------")
+#       model.a = gls(iqs ~ ciclo + as.factor(PDS) + as.factor(PDS)*ciclo,
+#              data=da)
+#       ACF(model.a,form = ~ ciclo | bloco)
+# 
+#       model.b = lme(iqs ~ ciclo + as.factor(PDS) + as.factor(PDS)*ciclo,
+#                       random = ~1|bloco,
+#                       data=da)
+#       ACF(model.b,form = ~ ciclo | bloco)
+#       cat("\n")
+# 
+#       modelo.mrt <- lme(iqs ~ ciclo + PDS + ciclo*PDS,
+#                             random = ~1|bloco,
+#                             data=da,
+#                             method = "REML"
+#                             )
+#       correlation = corAR1(form  = ~ time | subjvar)
+#       print(Anova(modelo.mrt))
 ```
 

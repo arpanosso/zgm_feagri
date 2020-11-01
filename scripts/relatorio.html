@@ -1611,6 +1611,7 @@ $(document).ready(function () {
       <li><a href="#biomassa-radicular">4 Biomassa Radicular</a><ul>
       <li><a href="#validação-de-dados-3">4.1 Validação de dados</a></li>
       </ul></li>
+      <li><a href="#abordagem-em-mrt">Abordagem em MRT</a></li>
       </ul>
     </div>
     
@@ -1625,9 +1626,17 @@ $(document).ready(function () {
 <h1>1 Índice de Qualidade do Solo (IQS)</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Caregando os pacotes no R</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(agricolae)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(ExpDes.pt)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">library</span>(pals)</span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(nlme)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(psych)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">library</span>(agricolae)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">library</span>(ExpDes.pt)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">library</span>(pals)</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">library</span>(car)</span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="kw">library</span>(multcompView)</span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="kw">library</span>(lsmeans)</span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="kw">library</span>(rcompanion)</span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="kw">library</span>(ggpubr)</span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="kw">library</span>(rstatix)</span></code></pre></div>
 <div id="validação-de-dados" class="section level2">
 <h2>1.1 Validação de dados</h2>
 <div id="entrada-dos-dados" class="section level3">
@@ -1649,7 +1658,8 @@ $(document).ready(function () {
 <span id="cb4-3"><a href="#cb4-3"></a>    <span class="dt">cobertura =</span> <span class="kw">sub</span>(<span class="st">&#39;</span><span class="ch">\\</span><span class="st">_.*&#39;</span>,<span class="st">&#39;&#39;</span>,tratamento),</span>
 <span id="cb4-4"><a href="#cb4-4"></a>    <span class="dt">PDS =</span> <span class="kw">sub</span>(<span class="st">&#39;.*</span><span class="ch">\\</span><span class="st">_&#39;</span>,<span class="st">&#39;&#39;</span>,tratamento)</span>
 <span id="cb4-5"><a href="#cb4-5"></a>  )</span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="kw">levels</span>(<span class="kw">factor</span>(dados<span class="op">$</span>cobertura))</span></code></pre></div>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="kw">levels</span>(<span class="kw">factor</span>(dados<span class="op">$</span>cobertura))</span></code></pre></div>
 <pre><code>## [1] &quot;amendoim&quot;      &quot;crotalária&quot;    &quot;milheto&quot;       &quot;sem cobertura&quot;
 ## [5] &quot;sorgo&quot;</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">levels</span>(<span class="kw">factor</span>(dados<span class="op">$</span>PDS))</span></code></pre></div>
@@ -1698,63 +1708,86 @@ $(document).ready(function () {
 <span id="cb22-3"><a href="#cb22-3"></a>prof&lt;-<span class="kw">levels</span>(<span class="kw">factor</span>(dados<span class="op">$</span>profundidade)) </span>
 <span id="cb22-4"><a href="#cb22-4"></a>posição&lt;-<span class="kw">levels</span>(<span class="kw">factor</span>(dados<span class="op">$</span>linha_entrelinha))</span>
 <span id="cb22-5"><a href="#cb22-5"></a></span>
-<span id="cb22-6"><a href="#cb22-6"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(cob)){</span>
-<span id="cb22-7"><a href="#cb22-7"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(prof)){</span>
-<span id="cb22-8"><a href="#cb22-8"></a>      <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(posição)){</span>
-<span id="cb22-9"><a href="#cb22-9"></a>        <span class="kw">print</span>(<span class="st">&quot;-----------------------------------------&quot;</span>)</span>
-<span id="cb22-10"><a href="#cb22-10"></a>        <span class="kw">print</span>(<span class="kw">paste</span>(cob[i],prof[j],posição[k]))</span>
-<span id="cb22-11"><a href="#cb22-11"></a>        <span class="kw">print</span>(<span class="st">&quot;-----------------------------------------&quot;</span>)</span>
-<span id="cb22-12"><a href="#cb22-12"></a>        </span>
-<span id="cb22-13"><a href="#cb22-13"></a>        da&lt;-dados <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb22-14"><a href="#cb22-14"></a><span class="st">          </span><span class="kw">filter</span>(cobertura<span class="op">==</span>cob[i],</span>
-<span id="cb22-15"><a href="#cb22-15"></a>                profundidade<span class="op">==</span>prof[j],</span>
-<span id="cb22-16"><a href="#cb22-16"></a>                linha_entrelinha<span class="op">==</span>posição[k])</span>
-<span id="cb22-17"><a href="#cb22-17"></a>        </span>
-<span id="cb22-18"><a href="#cb22-18"></a>        add &lt;-<span class="st"> </span>adicional <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb22-19"><a href="#cb22-19"></a><span class="st">          </span><span class="kw">filter</span>(profundidade<span class="op">==</span>prof[j],linha_entrelinha<span class="op">==</span>posição[k])</span>
-<span id="cb22-20"><a href="#cb22-20"></a>         </span>
-<span id="cb22-21"><a href="#cb22-21"></a>        dd&lt;-<span class="kw">rbind</span>(da,add)</span>
-<span id="cb22-22"><a href="#cb22-22"></a>        y&lt;-dd<span class="op">$</span>iqs</span>
-<span id="cb22-23"><a href="#cb22-23"></a>        trat&lt;-<span class="kw">as.factor</span>(<span class="kw">paste</span>(dd<span class="op">$</span>PDS,dd<span class="op">$</span>ciclo,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>))</span>
-<span id="cb22-24"><a href="#cb22-24"></a>        contrastes&lt;-<span class="kw">cbind</span>(</span>
-<span id="cb22-25"><a href="#cb22-25"></a>          <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-26"><a href="#cb22-26"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-27"><a href="#cb22-27"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>),</span>
-<span id="cb22-28"><a href="#cb22-28"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb22-29"><a href="#cb22-29"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-30"><a href="#cb22-30"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-31"><a href="#cb22-31"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-32"><a href="#cb22-32"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-33"><a href="#cb22-33"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-34"><a href="#cb22-34"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-35"><a href="#cb22-35"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-36"><a href="#cb22-36"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-37"><a href="#cb22-37"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb22-38"><a href="#cb22-38"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>),</span>
-<span id="cb22-39"><a href="#cb22-39"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb22-40"><a href="#cb22-40"></a>          )</span>
-<span id="cb22-41"><a href="#cb22-41"></a>        <span class="kw">contrasts</span>(trat) &lt;-<span class="st"> </span>contrastes</span>
-<span id="cb22-42"><a href="#cb22-42"></a>        modelo.contrastes&lt;-<span class="kw">aov</span>(y<span class="op">~</span>trat)</span>
-<span id="cb22-43"><a href="#cb22-43"></a>        </span>
-<span id="cb22-44"><a href="#cb22-44"></a>        <span class="kw">print</span>(<span class="st">&quot;------------------ Fatorial vs Testemunha adicional -------------&quot;</span>)</span>
-<span id="cb22-45"><a href="#cb22-45"></a>        <span class="kw">print</span>(<span class="kw">summary</span>(modelo.contrastes, </span>
-<span id="cb22-46"><a href="#cb22-46"></a>        <span class="dt">split=</span> <span class="kw">list</span>(<span class="dt">trat=</span> </span>
-<span id="cb22-47"><a href="#cb22-47"></a>                      <span class="kw">list</span>(<span class="st">&quot;Add vs. Trat (ciclo_1)&quot;</span>=<span class="st"> </span><span class="dv">1</span>,</span>
-<span id="cb22-48"><a href="#cb22-48"></a>                           <span class="st">&quot;Add vs. Trat (ciclo_2)&quot;</span>=<span class="st"> </span><span class="dv">2</span>,</span>
-<span id="cb22-49"><a href="#cb22-49"></a>                           <span class="st">&quot;Add vs. Trat (ciclo_3)&quot;</span> =<span class="st"> </span><span class="dv">3</span>,</span>
-<span id="cb22-50"><a href="#cb22-50"></a>                           <span class="st">&quot;Add vs. Trat (ciclo_4)&quot;</span> =<span class="st"> </span><span class="dv">4</span>,</span>
-<span id="cb22-51"><a href="#cb22-51"></a>                           <span class="st">&quot;Fatorial&quot;</span>=<span class="st"> </span><span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)))</span>
-<span id="cb22-52"><a href="#cb22-52"></a>        )</span>
-<span id="cb22-53"><a href="#cb22-53"></a></span>
-<span id="cb22-54"><a href="#cb22-54"></a>        </span>
-<span id="cb22-55"><a href="#cb22-55"></a>        <span class="kw">print</span>(<span class="st">&quot;------------------ Análise de Parcelas Subdivididas -------------&quot;</span>)</span>
-<span id="cb22-56"><a href="#cb22-56"></a>        <span class="kw">psub2.dbc</span>(da<span class="op">$</span>PDS,da<span class="op">$</span>ciclo,da<span class="op">$</span>bloco,da<span class="op">$</span>iqs,</span>
-<span id="cb22-57"><a href="#cb22-57"></a>                   <span class="dt">quali=</span><span class="kw">c</span>(<span class="ot">TRUE</span>,<span class="ot">TRUE</span>), <span class="dt">mcomp =</span> <span class="st">&quot;tukey&quot;</span>, </span>
-<span id="cb22-58"><a href="#cb22-58"></a>                   <span class="dt">fac.names =</span> <span class="kw">c</span>(<span class="st">&quot;PDS&quot;</span>,<span class="st">&quot;CICLO&quot;</span>))</span>
-<span id="cb22-59"><a href="#cb22-59"></a>        <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb22-60"><a href="#cb22-60"></a>        </span>
-<span id="cb22-61"><a href="#cb22-61"></a>      }}</span>
-<span id="cb22-62"><a href="#cb22-62"></a>}</span></code></pre></div>
+<span id="cb22-6"><a href="#cb22-6"></a><span class="co"># Laços para várias análises</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(cob)){</span>
+<span id="cb22-8"><a href="#cb22-8"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(prof)){</span>
+<span id="cb22-9"><a href="#cb22-9"></a>      <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(posição)){</span>
+<span id="cb22-10"><a href="#cb22-10"></a>        <span class="kw">print</span>(<span class="st">&quot;-----------------------------------------&quot;</span>)</span>
+<span id="cb22-11"><a href="#cb22-11"></a>        <span class="kw">print</span>(<span class="kw">paste</span>(cob[i],prof[j],posição[k]))</span>
+<span id="cb22-12"><a href="#cb22-12"></a>        <span class="kw">print</span>(<span class="st">&quot;-----------------------------------------&quot;</span>)</span>
+<span id="cb22-13"><a href="#cb22-13"></a>        </span>
+<span id="cb22-14"><a href="#cb22-14"></a>        <span class="co"># Criando dados auxiliar</span></span>
+<span id="cb22-15"><a href="#cb22-15"></a>        da&lt;-dados <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-16"><a href="#cb22-16"></a><span class="st">          </span><span class="kw">filter</span>(cobertura<span class="op">==</span>cob[i],</span>
+<span id="cb22-17"><a href="#cb22-17"></a>                profundidade<span class="op">==</span>prof[j],</span>
+<span id="cb22-18"><a href="#cb22-18"></a>                linha_entrelinha<span class="op">==</span>posição[k])</span>
+<span id="cb22-19"><a href="#cb22-19"></a> </span>
+<span id="cb22-20"><a href="#cb22-20"></a>        <span class="co"># Criando os dados com o trat adicional</span></span>
+<span id="cb22-21"><a href="#cb22-21"></a>        add &lt;-<span class="st"> </span>adicional <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-22"><a href="#cb22-22"></a><span class="st">          </span><span class="kw">filter</span>(profundidade<span class="op">==</span>prof[j],linha_entrelinha<span class="op">==</span>posição[k])</span>
+<span id="cb22-23"><a href="#cb22-23"></a>        </span>
+<span id="cb22-24"><a href="#cb22-24"></a>        <span class="co"># Juntandos os dois dados para o desdobramento de graus de liberdade</span></span>
+<span id="cb22-25"><a href="#cb22-25"></a>        dd&lt;-<span class="kw">rbind</span>(da,add)</span>
+<span id="cb22-26"><a href="#cb22-26"></a>        y&lt;-dd<span class="op">$</span>iqs</span>
+<span id="cb22-27"><a href="#cb22-27"></a>        trat&lt;-<span class="kw">as.factor</span>(<span class="kw">paste</span>(dd<span class="op">$</span>PDS,dd<span class="op">$</span>ciclo,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>))</span>
+<span id="cb22-28"><a href="#cb22-28"></a>        contrastes&lt;-<span class="kw">cbind</span>(</span>
+<span id="cb22-29"><a href="#cb22-29"></a>          <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-30"><a href="#cb22-30"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-31"><a href="#cb22-31"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb22-32"><a href="#cb22-32"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb22-33"><a href="#cb22-33"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-34"><a href="#cb22-34"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-35"><a href="#cb22-35"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-36"><a href="#cb22-36"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-37"><a href="#cb22-37"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-38"><a href="#cb22-38"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-39"><a href="#cb22-39"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-40"><a href="#cb22-40"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-41"><a href="#cb22-41"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb22-42"><a href="#cb22-42"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb22-43"><a href="#cb22-43"></a>          <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb22-44"><a href="#cb22-44"></a>          )</span>
+<span id="cb22-45"><a href="#cb22-45"></a>        <span class="kw">contrasts</span>(trat) &lt;-<span class="st"> </span>contrastes</span>
+<span id="cb22-46"><a href="#cb22-46"></a>        modelo.contrastes&lt;-<span class="kw">aov</span>(y<span class="op">~</span>trat)</span>
+<span id="cb22-47"><a href="#cb22-47"></a>        <span class="kw">print</span>(<span class="st">&quot;------------------ Fatorial vs Testemunha adicional -------------&quot;</span>)</span>
+<span id="cb22-48"><a href="#cb22-48"></a>        <span class="kw">print</span>(<span class="kw">summary</span>(modelo.contrastes, </span>
+<span id="cb22-49"><a href="#cb22-49"></a>        <span class="dt">split=</span> <span class="kw">list</span>(<span class="dt">trat=</span> </span>
+<span id="cb22-50"><a href="#cb22-50"></a>                      <span class="kw">list</span>(<span class="st">&quot;Add vs. Trat (ciclo_1)&quot;</span>=<span class="dv">1</span>,</span>
+<span id="cb22-51"><a href="#cb22-51"></a>                           <span class="st">&quot;Add vs. Trat (ciclo_2)&quot;</span>=<span class="dv">2</span>,</span>
+<span id="cb22-52"><a href="#cb22-52"></a>                           <span class="st">&quot;Add vs. Trat (ciclo_3)&quot;</span>=<span class="dv">3</span>,</span>
+<span id="cb22-53"><a href="#cb22-53"></a>                           <span class="st">&quot;Add vs. Trat (ciclo_4)&quot;</span>=<span class="dv">4</span>,</span>
+<span id="cb22-54"><a href="#cb22-54"></a>                           <span class="st">&quot;Fatorial&quot;</span>=<span class="st"> </span><span class="dv">5</span><span class="op">:</span><span class="dv">15</span>)))</span>
+<span id="cb22-55"><a href="#cb22-55"></a>        )</span>
+<span id="cb22-56"><a href="#cb22-56"></a>        <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb22-57"><a href="#cb22-57"></a>        </span>
+<span id="cb22-58"><a href="#cb22-58"></a>        <span class="kw">print</span>(<span class="st">&quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;</span>)</span>
+<span id="cb22-59"><a href="#cb22-59"></a>       dm&lt;-da <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-60"><a href="#cb22-60"></a><span class="st">          </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> ciclo, <span class="dt">values_from =</span> iqs) </span>
+<span id="cb22-61"><a href="#cb22-61"></a>       dm &lt;-<span class="st"> </span>dm[<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)]</span>
+<span id="cb22-62"><a href="#cb22-62"></a>       </span>
+<span id="cb22-63"><a href="#cb22-63"></a>      <span class="co"># Calculando a diferença entre grupos</span></span>
+<span id="cb22-64"><a href="#cb22-64"></a>      grp.diff &lt;-<span class="st"> </span>dm <span class="op">%&gt;%</span></span>
+<span id="cb22-65"><a href="#cb22-65"></a><span class="st">         </span><span class="kw">transmute</span>(</span>
+<span id="cb22-66"><a href="#cb22-66"></a>            <span class="st">`</span><span class="dt">t1-t2</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">1</span><span class="st">`</span> <span class="op">-</span><span class="st"> `</span><span class="dt">2</span><span class="st">`</span>,</span>
+<span id="cb22-67"><a href="#cb22-67"></a>            <span class="st">`</span><span class="dt">t1-t3</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">1</span><span class="st">`</span> <span class="op">-</span><span class="st"> `</span><span class="dt">3</span><span class="st">`</span>,</span>
+<span id="cb22-68"><a href="#cb22-68"></a>            <span class="st">`</span><span class="dt">t1-t4</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">1</span><span class="st">`</span> <span class="op">-</span><span class="st"> `</span><span class="dt">4</span><span class="st">`</span>,</span>
+<span id="cb22-69"><a href="#cb22-69"></a>            <span class="st">`</span><span class="dt">t2-t3</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">2</span><span class="st">`</span> <span class="op">-</span><span class="st"> `</span><span class="dt">3</span><span class="st">`</span>,</span>
+<span id="cb22-70"><a href="#cb22-70"></a>            <span class="st">`</span><span class="dt">t3-t4</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">2</span><span class="st">`</span> <span class="op">-</span><span class="st"> `</span><span class="dt">4</span><span class="st">`</span>,</span>
+<span id="cb22-71"><a href="#cb22-71"></a>            <span class="st">`</span><span class="dt">t3-t4</span><span class="st">`</span> =<span class="st"> `</span><span class="dt">3</span><span class="st">`</span> <span class="op">-</span><span class="st"> `</span><span class="dt">4</span><span class="st">`</span>,</span>
+<span id="cb22-72"><a href="#cb22-72"></a>         )</span>
+<span id="cb22-73"><a href="#cb22-73"></a>      grp.diff  <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(var)</span>
+<span id="cb22-74"><a href="#cb22-74"></a>      </span>
+<span id="cb22-75"><a href="#cb22-75"></a>      res &lt;-<span class="st"> </span><span class="kw">anova_test</span>(<span class="dt">data =</span> da, <span class="dt">dv =</span> iqs, <span class="dt">wid =</span> bloco, <span class="dt">within =</span> ciclo)</span>
+<span id="cb22-76"><a href="#cb22-76"></a>      <span class="kw">print</span>(res<span class="op">$</span><span class="st">`</span><span class="dt">Mauchly&#39;s Test for Sphericity</span><span class="st">`</span>)</span>
+<span id="cb22-77"><a href="#cb22-77"></a>      <span class="kw">print</span>(res<span class="op">$</span><span class="st">`</span><span class="dt">Sphericity Corrections</span><span class="st">`</span>)</span>
+<span id="cb22-78"><a href="#cb22-78"></a>      </span>
+<span id="cb22-79"><a href="#cb22-79"></a>      <span class="kw">print</span>(<span class="st">&quot;------------------ Análise de Parcelas Subdivididas -------------&quot;</span>)</span>
+<span id="cb22-80"><a href="#cb22-80"></a>       <span class="kw">psub2.dbc</span>(da<span class="op">$</span>PDS,da<span class="op">$</span>ciclo,da<span class="op">$</span>bloco,da<span class="op">$</span>iqs,</span>
+<span id="cb22-81"><a href="#cb22-81"></a>                    <span class="dt">quali=</span><span class="kw">c</span>(<span class="ot">TRUE</span>,<span class="ot">TRUE</span>), <span class="dt">mcomp =</span> <span class="st">&quot;tukey&quot;</span>, </span>
+<span id="cb22-82"><a href="#cb22-82"></a>                    <span class="dt">fac.names =</span> <span class="kw">c</span>(<span class="st">&quot;PDS&quot;</span>,<span class="st">&quot;CICLO&quot;</span>))</span>
+<span id="cb22-83"><a href="#cb22-83"></a>       <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb22-84"><a href="#cb22-84"></a>  }}</span>
+<span id="cb22-85"><a href="#cb22-85"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;-----------------------------------------&quot;
 ## [1] &quot;amendoim 0_20 entrelinha&quot;
 ## [1] &quot;-----------------------------------------&quot;
@@ -1769,6 +1802,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.012867 0.000402                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.183 0.046     *
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe     DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.527 1.58, 12.64 0.145           0.635 1.9, 15.23 0.134          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -1911,6 +1950,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.01973 0.000617                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.495 0.454      
+##   Effect   GGe     DF[GG] p[GG] p[GG]&lt;.05  HFe      DF[HF]   p[HF] p[HF]&lt;.05
+## 1  ciclo 0.713 2.14, 17.1 0.002         * 0.98 2.94, 23.52 0.00034         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -1970,6 +2015,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.03760 0.001175                 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W        p p&lt;.05
+## 1  ciclo 0.036 0.000543     *
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.427 1.28, 10.26 0.405           0.473 1.42, 11.36 0.414          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -2112,6 +2163,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.03987 0.001246                   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W    p p&lt;.05
+## 1  ciclo 0.651 0.72      
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.775 2.33, 18.61 0.022         * 1.112 3.34, 26.69 0.012         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -2171,6 +2228,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.04067 0.001271                  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.136 0.021     *
+##   Effect  GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.64 1.92, 15.36 0.173           0.838 2.51, 20.11 0.157          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -2307,6 +2370,12 @@ $(document).ready(function () {
 ##   trat: Add vs. Trat (ciclo_4)  1 0.00134 0.0013444   1.325  0.258
 ##   trat: Fatorial               11 0.01502 0.0013657   1.346  0.246
 ## Residuals                      32 0.03247 0.0010146               
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.686 0.773      
+##   Effect  GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.81 2.43, 19.43 0.058           1.188 3.56, 28.51 0.044         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -2366,6 +2435,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.020533 0.0006417                 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W    p p&lt;.05
+## 1  ciclo 0.446 0.37      
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe     DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.769 2.31, 18.46 0.004         * 1.099 3.3, 26.37 0.002         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -2425,6 +2500,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.04247 0.001327                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.221 0.074      
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe   DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.521 1.56, 12.51 0.137           0.625 1.88, 15 0.125          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -2565,6 +2646,12 @@ $(document).ready(function () {
 ##   trat: Add vs. Trat (ciclo_4)  1 0.00004 0.0000444   0.037  0.849
 ##   trat: Fatorial               11 0.01394 0.0012672   1.056  0.425
 ## Residuals                      32 0.03840 0.0012000               
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.098 0.009     *
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe     DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.679 2.04, 16.29 0.086           0.912 2.74, 21.9 0.065          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -2623,6 +2710,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.06420 0.002006                 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.642 0.706      
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05  HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.765 2.29, 18.36 0.128           1.09 3.27, 26.15 0.108          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -2761,6 +2854,12 @@ $(document).ready(function () {
 ##   trat: Add vs. Trat (ciclo_4)  1 0.00007 0.0000694   0.062  0.806
 ##   trat: Fatorial               11 0.01094 0.0009945   0.881  0.567
 ## Residuals                      32 0.03613 0.0011292               
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.243 0.094      
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05  HFe     DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.698 2.09, 16.74 0.202           0.95 2.85, 22.8 0.185          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -2819,6 +2918,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.04087 0.001277                   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.138 0.022     *
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.648 1.94, 15.56 0.061           0.853 2.56, 20.48 0.044         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -2961,6 +3066,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.015667 0.0004896                   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.496 0.457      
+##   Effect   GGe     DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.679 2.04, 16.3 0.023         * 0.914 2.74, 21.92 0.012         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -3020,6 +3131,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.01880 0.000588                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.435 0.351      
+##   Effect   GGe     DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.632 1.9, 15.16 0.004         * 0.822 2.47, 19.73 0.001         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -3162,6 +3279,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.04333 0.001354                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.513 0.486      
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.687 2.06, 16.48 0.422           0.928 2.78, 22.28 0.443          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -3302,6 +3425,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.04020 0.00126                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.079 0.005     *
+##   Effect   GGe     DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.488 1.46, 11.7   0.4           0.569 1.71, 13.67 0.412          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -3446,6 +3575,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.03327 0.001040                 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.377 0.261      
+##   Effect   GGe     DF[GG] p[GG] p[GG]&lt;.05  HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.688 2.06, 16.5  0.01         * 0.93 2.79, 22.32 0.004         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -3506,6 +3641,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.03033 0.00095                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.499 0.462      
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF]   p[HF] p[HF]&lt;.05
+## 1  ciclo 0.724 2.17, 17.37 0.002         * 1.003 3.01, 24.07 0.00051         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -3650,6 +3791,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.01840 0.000575                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.325 0.187      
+##   Effect  GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.66 1.98, 15.85 0.431           0.877 2.63, 21.05 0.453          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -3792,6 +3939,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.01467 0.000458                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.516 0.491      
+##   Effect   GGe   DF[GG]    p[GG] p[GG]&lt;.05   HFe      DF[HF]    p[HF] p[HF]&lt;.05
+## 1  ciclo 0.708 2.13, 17 7.54e-05         * 0.972 2.91, 23.32 5.48e-06         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -3851,6 +4004,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.03040 0.000950                   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.722 0.824      
+##   Effect  GGe      DF[GG] p[GG] p[GG]&lt;.05  HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.81 2.43, 19.45 0.062           1.19 3.57, 28.56 0.048         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -3911,6 +4070,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.03860 0.001206                   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.435 0.352      
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe     DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.705 2.12, 16.92 0.866           0.965 2.9, 23.16 0.918          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -4053,6 +4218,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.04227 0.001321                 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.755 0.866      
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.865 2.59, 20.75 0.102           1.316 3.95, 31.59  0.09          
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -4112,6 +4283,12 @@ $(document).ready(function () {
 ## Residuals                      32 0.02527 0.000790                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## [1] &quot;------------------ Teste de  Mauchly’s para esfericidade -------------&quot;
+##   Effect     W     p p&lt;.05
+## 1  ciclo 0.374 0.255      
+##   Effect   GGe      DF[GG] p[GG] p[GG]&lt;.05   HFe      DF[HF] p[HF] p[HF]&lt;.05
+## 1  ciclo 0.606 1.82, 14.54 0.021         * 0.774 2.32, 18.57 0.012         *
 ## [1] &quot;------------------ Análise de Parcelas Subdivididas -------------&quot;
 ## ------------------------------------------------------------------------
 ## Legenda:
@@ -4288,6 +4465,93 @@ $(document).ready(function () {
 <pre><code>## [1] &quot;ca&quot;         &quot;entrelinha&quot; &quot;linha&quot;</code></pre>
 </div>
 </div>
+</div>
+<div id="abordagem-em-mrt" class="section level1">
+<h1>Abordagem em MRT</h1>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="co"># modelAR1 = lme(Calories.per.day ~ Instruction + Month + Instruction*Month,</span></span>
+<span id="cb49-2"><a href="#cb49-2"></a><span class="co">#             random = ~1|Student,</span></span>
+<span id="cb49-3"><a href="#cb49-3"></a><span class="co">#             correlation = corAR1(form = ~ Month | Student),</span></span>
+<span id="cb49-4"><a href="#cb49-4"></a><span class="co">#             data=Data,</span></span>
+<span id="cb49-5"><a href="#cb49-5"></a><span class="co">#             method=&quot;REML&quot;)</span></span>
+<span id="cb49-6"><a href="#cb49-6"></a><span class="co"># </span></span>
+<span id="cb49-7"><a href="#cb49-7"></a><span class="co"># modelcorARMA= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,</span></span>
+<span id="cb49-8"><a href="#cb49-8"></a><span class="co">#                   random = ~1|Student,</span></span>
+<span id="cb49-9"><a href="#cb49-9"></a><span class="co">#                   correlation = corARMA(form = ~ 1 | Student, q = 1),</span></span>
+<span id="cb49-10"><a href="#cb49-10"></a><span class="co">#                   data=Data,</span></span>
+<span id="cb49-11"><a href="#cb49-11"></a><span class="co">#                   method=&quot;REML&quot;)</span></span>
+<span id="cb49-12"><a href="#cb49-12"></a><span class="co"># </span></span>
+<span id="cb49-13"><a href="#cb49-13"></a><span class="co"># modelcorCompSymm= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,</span></span>
+<span id="cb49-14"><a href="#cb49-14"></a><span class="co">#                random = ~1|Student,</span></span>
+<span id="cb49-15"><a href="#cb49-15"></a><span class="co">#                correlation = corCompSymm(form = ~ Month | Student),</span></span>
+<span id="cb49-16"><a href="#cb49-16"></a><span class="co">#                data=Data,</span></span>
+<span id="cb49-17"><a href="#cb49-17"></a><span class="co">#                method=&quot;REML&quot;)</span></span>
+<span id="cb49-18"><a href="#cb49-18"></a><span class="co"># </span></span>
+<span id="cb49-19"><a href="#cb49-19"></a><span class="co"># modelcorCAR1= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,</span></span>
+<span id="cb49-20"><a href="#cb49-20"></a><span class="co">#                       random = ~1|Student,</span></span>
+<span id="cb49-21"><a href="#cb49-21"></a><span class="co">#                       correlation = corCAR1(form = ~ Month | Student),</span></span>
+<span id="cb49-22"><a href="#cb49-22"></a><span class="co">#                       data=Data,</span></span>
+<span id="cb49-23"><a href="#cb49-23"></a><span class="co">#                       method=&quot;REML&quot;)</span></span>
+<span id="cb49-24"><a href="#cb49-24"></a><span class="co"># </span></span>
+<span id="cb49-25"><a href="#cb49-25"></a><span class="co"># modelcorExp= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,</span></span>
+<span id="cb49-26"><a href="#cb49-26"></a><span class="co">#                   random = ~1|Student,</span></span>
+<span id="cb49-27"><a href="#cb49-27"></a><span class="co">#                   correlation = corExp(form = ~ Month | Student),</span></span>
+<span id="cb49-28"><a href="#cb49-28"></a><span class="co">#                   data=Data,</span></span>
+<span id="cb49-29"><a href="#cb49-29"></a><span class="co">#                   method=&quot;REML&quot;)</span></span>
+<span id="cb49-30"><a href="#cb49-30"></a><span class="co"># </span></span>
+<span id="cb49-31"><a href="#cb49-31"></a><span class="co"># modelcorGaus= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,</span></span>
+<span id="cb49-32"><a href="#cb49-32"></a><span class="co">#                  random = ~1|Student,</span></span>
+<span id="cb49-33"><a href="#cb49-33"></a><span class="co">#                  correlation = corGaus(form = ~ Month | Student),</span></span>
+<span id="cb49-34"><a href="#cb49-34"></a><span class="co">#                  data=Data,</span></span>
+<span id="cb49-35"><a href="#cb49-35"></a><span class="co">#                  method=&quot;REML&quot;)</span></span>
+<span id="cb49-36"><a href="#cb49-36"></a><span class="co"># </span></span>
+<span id="cb49-37"><a href="#cb49-37"></a><span class="co"># modelcorLin= lme(Calories.per.day ~ Instruction + Month + Instruction*Month,</span></span>
+<span id="cb49-38"><a href="#cb49-38"></a><span class="co">#                   random = ~1|Student,</span></span>
+<span id="cb49-39"><a href="#cb49-39"></a><span class="co">#                   correlation = corLin(form = ~ Month | Student),</span></span>
+<span id="cb49-40"><a href="#cb49-40"></a><span class="co">#                   data=Data,</span></span>
+<span id="cb49-41"><a href="#cb49-41"></a><span class="co">#                   method=&quot;REML&quot;)</span></span>
+<span id="cb49-42"><a href="#cb49-42"></a><span class="co"># </span></span>
+<span id="cb49-43"><a href="#cb49-43"></a><span class="co"># modelccorRatio=lme(Calories.per.day ~ Instruction + Month + Instruction*Month,</span></span>
+<span id="cb49-44"><a href="#cb49-44"></a><span class="co">#                  random = ~1|Student,</span></span>
+<span id="cb49-45"><a href="#cb49-45"></a><span class="co">#                  correlation = corRatio(form = ~ Month | Student),</span></span>
+<span id="cb49-46"><a href="#cb49-46"></a><span class="co">#                  data=Data,</span></span>
+<span id="cb49-47"><a href="#cb49-47"></a><span class="co">#                  method=&quot;REML&quot;)</span></span>
+<span id="cb49-48"><a href="#cb49-48"></a><span class="co"># </span></span>
+<span id="cb49-49"><a href="#cb49-49"></a><span class="co"># modelcorSpher=lme(Calories.per.day ~ Instruction + Month + Instruction*Month,</span></span>
+<span id="cb49-50"><a href="#cb49-50"></a><span class="co">#                    random = ~1|Student,</span></span>
+<span id="cb49-51"><a href="#cb49-51"></a><span class="co">#                    correlation = corSpher(form = ~ Month | Student),</span></span>
+<span id="cb49-52"><a href="#cb49-52"></a><span class="co">#                    data=Data,</span></span>
+<span id="cb49-53"><a href="#cb49-53"></a><span class="co">#                    method=&quot;REML&quot;)</span></span>
+<span id="cb49-54"><a href="#cb49-54"></a><span class="co"># </span></span>
+<span id="cb49-55"><a href="#cb49-55"></a><span class="co"># anova(modelAR1,</span></span>
+<span id="cb49-56"><a href="#cb49-56"></a><span class="co">#       modelcorCompSymm,</span></span>
+<span id="cb49-57"><a href="#cb49-57"></a><span class="co">#       modelcorCAR1,</span></span>
+<span id="cb49-58"><a href="#cb49-58"></a><span class="co">#       modelcorARMA,</span></span>
+<span id="cb49-59"><a href="#cb49-59"></a><span class="co">#       modelcorExp,</span></span>
+<span id="cb49-60"><a href="#cb49-60"></a><span class="co">#       modelcorGaus,</span></span>
+<span id="cb49-61"><a href="#cb49-61"></a><span class="co">#       modelcorLin,</span></span>
+<span id="cb49-62"><a href="#cb49-62"></a><span class="co">#       modelccorRatio,</span></span>
+<span id="cb49-63"><a href="#cb49-63"></a><span class="co">#       modelcorSpher)</span></span>
+<span id="cb49-64"><a href="#cb49-64"></a><span class="co"># </span></span>
+<span id="cb49-65"><a href="#cb49-65"></a></span>
+<span id="cb49-66"><a href="#cb49-66"></a><span class="co">#       </span></span>
+<span id="cb49-67"><a href="#cb49-67"></a><span class="co">#       print(&quot;------------------ Análise de Medidas Repetidas -------------&quot;)</span></span>
+<span id="cb49-68"><a href="#cb49-68"></a><span class="co">#       model.a = gls(iqs ~ ciclo + as.factor(PDS) + as.factor(PDS)*ciclo,</span></span>
+<span id="cb49-69"><a href="#cb49-69"></a><span class="co">#              data=da)</span></span>
+<span id="cb49-70"><a href="#cb49-70"></a><span class="co">#       ACF(model.a,form = ~ ciclo | bloco)</span></span>
+<span id="cb49-71"><a href="#cb49-71"></a><span class="co"># </span></span>
+<span id="cb49-72"><a href="#cb49-72"></a><span class="co">#       model.b = lme(iqs ~ ciclo + as.factor(PDS) + as.factor(PDS)*ciclo,</span></span>
+<span id="cb49-73"><a href="#cb49-73"></a><span class="co">#                       random = ~1|bloco,</span></span>
+<span id="cb49-74"><a href="#cb49-74"></a><span class="co">#                       data=da)</span></span>
+<span id="cb49-75"><a href="#cb49-75"></a><span class="co">#       ACF(model.b,form = ~ ciclo | bloco)</span></span>
+<span id="cb49-76"><a href="#cb49-76"></a><span class="co">#       cat(&quot;\n&quot;)</span></span>
+<span id="cb49-77"><a href="#cb49-77"></a><span class="co"># </span></span>
+<span id="cb49-78"><a href="#cb49-78"></a><span class="co">#       modelo.mrt &lt;- lme(iqs ~ ciclo + PDS + ciclo*PDS,</span></span>
+<span id="cb49-79"><a href="#cb49-79"></a><span class="co">#                             random = ~1|bloco,</span></span>
+<span id="cb49-80"><a href="#cb49-80"></a><span class="co">#                             data=da,</span></span>
+<span id="cb49-81"><a href="#cb49-81"></a><span class="co">#                             method = &quot;REML&quot;</span></span>
+<span id="cb49-82"><a href="#cb49-82"></a><span class="co">#                             )</span></span>
+<span id="cb49-83"><a href="#cb49-83"></a><span class="co">#       correlation = corAR1(form  = ~ time | subjvar)</span></span>
+<span id="cb49-84"><a href="#cb49-84"></a><span class="co">#       print(Anova(modelo.mrt))</span></span></code></pre></div>
 </div>
 </div>
 
