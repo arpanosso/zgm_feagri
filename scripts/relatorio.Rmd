@@ -27,6 +27,9 @@ library(lsmeans)
 library(rcompanion)
 library(ggpubr)
 library(rstatix)
+library(lme4)
+library(emmeans)
+library(lmerTest)
 ```
 
 
@@ -52,22 +55,25 @@ dados <- dados %>%
     PDS = sub('.*\\_','',tratamento)
   )
 
-levels(factor(dados$cobertura))
-levels(factor(dados$PDS))
-levels(factor(dados$ciclo))
-levels(factor(dados$tratamento))
-levels(factor(dados$linha_entrelinha))
-levels(factor(dados$profundidade))
+# levels(factor(dados$cobertura))
+# levels(factor(dados$PDS))
+# levels(factor(dados$ciclo))
+# levels(factor(dados$tratamento))
+# levels(factor(dados$linha_entrelinha))
+# levels(factor(dados$profundidade))
 
+# Separando o tratamento adicional
 adicional <- dados %>% 
   filter(tratamento == "sem cobertura_pc")
+
+# Dados sem o tratamento adicional
 dados<- dados %>% 
   filter(tratamento != "sem cobertura_pc")
 ```
 
 ## 1.2 Gráficos
-
 ```{r}
+# Gráfico de médias e barras e erro-pdarão da média
 dados %>% 
   group_by(ciclo,tratamento,profundidade,linha_entrelinha) %>%
   ggplot(aes(x=ciclo, y=iqs,fill=as.factor(profundidade)))+
@@ -83,11 +89,11 @@ dados %>%
 
 ## 1.3 Análise de variância
 
-```{r}
-# fatores
-levels(factor(dados$PDS))
-levels(factor(dados$ciclo))
+### 1.3.1 Teste de esfericidade
 
+Testando os pressuposto da esfericidade da matriz de variância e covariância das observações nos tempo.
+
+```{r}
 # Chaves de agrupamento
 cob<-levels(factor(dados$cobertura))
 prof<-levels(factor(dados$profundidade)) 
@@ -114,8 +120,27 @@ for(i in 1:length(cob)){
         # Juntandos os dois dados para o desdobramento de graus de liberdade
         dd<-rbind(da,add)
         y<-dd$iqs
-        trat<-as.factor(paste(dd$PDS,dd$ciclo,sep="_"))
-        contrastes<-cbind(
+        print("------------------ Teste de  Mauchly’s para esfericidade -------------")
+      dm<-da %>% 
+          pivot_wider(names_from = ciclo, values_from = iqs) 
+      dm <- dm[-(1:6)]
+       
+      res <- anova_test(data = da, dv = iqs, wid = bloco, within = ciclo)
+      print(res$`Mauchly's Test for Sphericity`)
+    }}
+}
+```
+
+Para a maioria das situações não se rejeita $H_0$ do teste de esfericidade, indicando que a abordagem de parcela subdivididas pode ser realizada.
+
+
+### 1.3.2 Desdobramento por contrastes
+
+Esse desdobramento é utilizado para comparação entre a testemunha e os tratamentos fatoriais em cada ciclo de avaliação.
+
+```{r}
+# Definindo a matriz de coeficientes dos contrastes
+contrastes<-cbind(
           c(-3,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0),
           c(0,-3,0,0,0,1,0,0,0,1,0,0,0,1,0,0),
           c(0,0,-3,0,0,0,1,0,0,0,1,0,0,0,1,0),
@@ -132,6 +157,29 @@ for(i in 1:length(cob)){
           c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0),
           c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1)
           )
+
+# Laços para várias análises
+for(i in 1:length(cob)){
+  for(j in 1:length(prof)){
+      for(k in 1:length(posição)){
+        print("-----------------------------------------")
+        print(paste(cob[i],prof[j],posição[k]))
+        print("-----------------------------------------")
+        
+        # Criando dados auxiliar
+        da<-dados %>% 
+          filter(cobertura==cob[i],
+                profundidade==prof[j],
+                linha_entrelinha==posição[k])
+ 
+        # Criando os dados com o trat adicional
+        add <- adicional %>% 
+          filter(profundidade==prof[j],linha_entrelinha==posição[k])
+        
+        # Juntandos os dois dados para o desdobramento de graus de liberdade
+        dd<-rbind(da,add)
+        y<-dd$iqs
+        trat<-as.factor(paste(dd$PDS,dd$ciclo,sep="_"))
         contrasts(trat) <- contrastes
         modelo.contrastes<-aov(y~trat)
         print("------------------ Fatorial vs Testemunha adicional -------------")
@@ -145,102 +193,110 @@ for(i in 1:length(cob)){
         )
         cat("\n")
         
-        print("------------------ Teste de  Mauchly’s para esfericidade -------------")
-       dm<-da %>% 
-          pivot_wider(names_from = ciclo, values_from = iqs) 
-       dm <- dm[-(1:6)]
-       
-      # Calculando a diferença entre grupos
-      grp.diff <- dm %>%
-         transmute(
-            `t1-t2` = `1` - `2`,
-            `t1-t3` = `1` - `3`,
-            `t1-t4` = `1` - `4`,
-            `t2-t3` = `2` - `3`,
-            `t3-t4` = `2` - `4`,
-            `t3-t4` = `3` - `4`,
-         )
-      grp.diff  %>% map(var)
-      
-      res <- anova_test(data = da, dv = iqs, wid = bloco, within = ciclo)
-      print(res$`Mauchly's Test for Sphericity`)
+  }}
+}
+```
 
-      
-      print("------------------ Análise de Parcelas Subdivididas -------------")
-       psub2.dbc(da$PDS,da$ciclo,da$bloco,da$iqs,
+### 1.3.3 Análise em faixas
+
+```{r}
+# Laços para várias análises
+for(i in 1:length(cob)){
+  for(j in 1:length(prof)){
+      for(k in 1:length(posição)){
+        print("-----------------------------------------")
+        print(paste(cob[i],prof[j],posição[k]))
+        print("-----------------------------------------")
+        
+        # Criando dados auxiliar
+        da<-dados %>% 
+          filter(cobertura==cob[i],
+                profundidade==prof[j],
+                linha_entrelinha==posição[k])
+ 
+        # Criando os dados com o trat adicional
+        add <- adicional %>% 
+          filter(profundidade==prof[j],linha_entrelinha==posição[k])
+        
+        # Juntandos os dois dados para o desdobramento de graus de liberdade
+
+      print("------------------ Análise em Faixas -------------")
+      faixas(da$PDS,da$ciclo,da$bloco,da$iqs,
                     quali=c(TRUE,TRUE), mcomp = "tukey", 
                     fac.names = c("PDS","CICLO"))
+      
        cat("\n")
   }}
 }
 ```
 
-# 2 Produção da cana-de-açúcar
-## 2.1 Validação de dados
-### Entrada dos dados
+## 1.4 Modelos Lineares Mistos
 ```{r}
-dados<-read.table(
-  "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/producao.txt",
-  h=TRUE,sep="\t")
-dados<-dados %>% 
-  select(ciclo,tratamento,bloco,produção)
-glimpse(dados) # Vislumbre
-
-levels(factor(dados$ciclo))
-levels(factor(dados$tratamento))
+# for(i in 1:length(cob)){
+#   for(j in 1:length(prof)){
+#       for(k in 1:length(posição)){
+#         print("-----------------------------------------")
+#         print(paste(cob[i],prof[j],posição[k]))
+#         print("-----------------------------------------")
+#         
+#         # Criando dados auxiliar
+#         da<-dados %>% 
+#           filter(cobertura==cob[i],
+#                 profundidade==prof[j],
+#                 linha_entrelinha==posição[k])
+#  
+#         # Criando os dados com o trat adicional
+#         add <- adicional %>% 
+#           filter(profundidade==prof[j],linha_entrelinha==posição[k])
+#         
+#         # Juntandos os dois dados para o desdobramento de graus de liberdade
+#         dd<-rbind(da,add)
+#         y<-dd$iqs
+#         trat<-as.factor(paste(dd$PDS,dd$ciclo,sep="_"))
+#         
+#         # Verificando a normalidade dos dados
+#         dd %>% 
+#           ggplot(aes(sample = iqs))+
+#           stat_qq()+
+#           stat_qq_line()+
+#           facet_wrap(~PDS)
+#         
+#         m0<-lm(iqs~PDS+ciclo+PDS:ciclo, data=dd)
+#         m1<-lmer(iqs~PDS+ciclo+PDS:ciclo + (bloco|ciclo), data=dd)
+#         m2<-lmer(iqs~PDS+ciclo+PDS:ciclo + (1|ciclo), data=dd)
+#         anova(m1, m2, refit=FALSE)
+#         anova(m2, m0, refit=TRUE)
+#         m3<-lmer(iqs~PDS+ciclo+PDS:ciclo + (1|ciclo), data=dd, REML=F)
+#         m4<-lmer(iqs~PDS+ciclo + (1|ciclo), data=dd, REML=F)
+#         m5<-lmer(iqs~PDS + (1|ciclo), data=dd, REML=F)
+#         m6<-lmer(iqs~ciclo + (1|ciclo), data=dd, REML=F)
+# 
+#         anova(m3,m4)
+#         anova(m3,m5)
+#         anova(m3,m6)
+#         modelo<-lmer(iqs~as.factor(PDS)+as.factor(ciclo)+as.factor(PDS):as.factor(ciclo) + (1|ciclo), data=dd)
+#         summary(modelo)
+#         print(anova(modelo))
+#         plot(modelo)
+#         
+#         #criando objeto com os coeficientes do modelo (efeitos fixos)
+#         fixLMM <- fixef(modelo)
+# 
+#         #criando objeto com os coeficientes do modelo (efeitos fixos)
+#         randLMM <- coef(modelo)
+#         cat("\n")
+#         
+#       pwc <- dd %>%
+#       group_by(ciclo) %>%
+#       pairwise_t_test(iqs ~ PDS, p.adjust.method = "bonferroni")
+#       print(pwc,all=TRUE)
+#         
+#   }}
+# }
 ```
 
-## 2.1 Gráficos
 
-```{r}
-dados %>% 
-  group_by(ciclo,tratamento) %>%
-  ggplot(aes(x=ciclo, y=produção,fill=as.factor(tratamento)))+
-  stat_summary(fun = mean, geom = "bar",
-               position = position_dodge()) + 
-  stat_summary(fun.data = errFun, geom = "linerange",
-               position = position_dodge(.9)) + 
-  facet_wrap(~ tratamento) +
-  labs(x="Ciclo", y = "Produção (t/ha)",fill="Tratamento")+
-  theme_minimal()+
-  scale_fill_manual(values= pals::brewer.accent(n=13))
-```
-
-# 3 Atributos do solo
-## 3.1 Validação de dados
-### Entrada dos dados
-```{r}
-dados<-read.table(
-  "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/horizontes.txt",
-  h=TRUE,sep="\t")
-glimpse(dados) # Vislumbre
-
-levels(factor(dados$ciclo))
-levels(factor(dados$tratamento))
-dados<-dados %>% 
-  mutate(linha_entrelinha = if_else(linha_entrelinha=="el","entrelinha","linha"))
-levels(factor(dados$linha_entrelinha))
-levels(factor(dados$profundidade))
-```
-
-# 4 Biomassa Radicular
-## 4.1 Validação de dados
-### Entrada dos dados
-```{r}
-dados<-read.table(
-  "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/biomassaRad.txt",
-  h=TRUE,sep="\t")
-names(dados)<-c("ciclo","tratamento","linha_entrelinha","profundidade","bloco","biomassa_raizes")
-glimpse(dados) # Vislumbre
-levels(factor(dados$ciclo))
-levels(factor(dados$tratamento))
-dados<-dados %>% 
-  mutate(linha_entrelinha = if_else(linha_entrelinha=="el","entrelinha",if_else(linha_entrelinha=="l","linha","ca")))
-levels(factor(dados$linha_entrelinha))
-```
-
-# Abordagem em MRT
-```{r}
+```{r,echo=FALSE,eval=FALSE}
 # modelAR1 = lme(Calories.per.day ~ Instruction + Month + Instruction*Month,
 #             random = ~1|Student,
 #             correlation = corAR1(form = ~ Month | Student),
@@ -325,5 +381,265 @@ levels(factor(dados$linha_entrelinha))
 #                             )
 #       correlation = corAR1(form  = ~ time | subjvar)
 #       print(Anova(modelo.mrt))
+```
+
+
+
+# 2 Produção da cana-de-açúcar
+## 2.1 Validação de dados
+### Entrada dos dados
+```{r}
+dados<-read.table(
+  "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/producao.txt",
+  h=TRUE,sep="\t")
+dados<-dados %>% 
+  select(ciclo,tratamento,bloco,produção)
+glimpse(dados) # Vislumbre
+
+levels(factor(dados$ciclo))
+levels(factor(dados$tratamento))
+
+dados <- dados %>% 
+  mutate(
+    cobertura = sub('\\_.*','',tratamento),
+    PDS = sub('.*\\_','',tratamento)
+  )
+
+# Separando o tratamento adicional
+adicional <- dados %>% 
+  filter(tratamento == "semcobertura_pc")
+
+# Dados sem o tratamento adicional
+dados<- dados %>% 
+  filter(tratamento != "semcobertura_pc")
+```
+
+## 2.1 Gráficos
+
+```{r}
+dados %>% 
+  group_by(ciclo,tratamento) %>%
+  ggplot(aes(x=ciclo, y=produção,fill=as.factor(tratamento)))+
+  stat_summary(fun = mean, geom = "bar",
+               position = position_dodge()) + 
+  stat_summary(fun.data = errFun, geom = "linerange",
+               position = position_dodge(.9)) + 
+  facet_wrap(~ tratamento) +
+  labs(x="Ciclo", y = "Produção (t/ha)",fill="Tratamento")+
+  theme_minimal()+
+  scale_fill_manual(values= pals::brewer.accent(n=13))
+```
+
+## 2.3 Análise de variância
+
+### 2.3.1 Teste de esfericidade
+
+Testando os pressuposto da esfericidade da matriz de variância e covariância das observações nos tempo.
+
+```{r}
+# Chaves de agrupamento
+cob<-levels(factor(dados$cobertura))
+
+# Laços para várias análises
+for(i in 1:length(cob)){
+        print("-----------------------------------------")
+        print(paste(cob[i]))
+        print("-----------------------------------------")
+        
+        # Criando dados auxiliar
+        da<-dados %>% 
+          filter(cobertura==cob[i])
+ 
+        # Criando os dados com o trat adicional
+        add <- adicional
+        
+        # Juntandos os dois dados para o desdobramento de graus de liberdade
+        dd<-rbind(da,add)
+        y<-dd$iqs
+        print("------------------ Teste de  Mauchly’s para esfericidade -------------")
+        dm<-da %>% 
+          pivot_wider(names_from = ciclo, values_from = produção) 
+        dm <- dm[-(1:6)]
+       
+        res <- anova_test(data = da, dv = produção, wid = bloco, within = ciclo)
+        print(res$`Mauchly's Test for Sphericity`)
+}
+```
+
+Para a maioria das situações não se rejeita $H_0$ do teste de esfericidade, indicando que a abordagem de faixas pode ser realizada.
+
+
+### 2.3.2 Desdobramento por contrastes
+
+Esse desdobramento é utilizado para comparação entre a testemunha e os tratamentos fatoriais em cada ciclo de avaliação.
+
+```{r}
+# Definindo a matriz de coeficientes dos contrastes
+contrastes<-cbind(
+          c(-3,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0),
+          c(0,-3,0,0,0,1,0,0,0,1,0,0,0,1,0,0),
+          c(0,0,-3,0,0,0,1,0,0,0,1,0,0,0,1,0),
+          c(0,0,0,-3,0,0,0,1,0,0,0,1,0,0,0,1),
+          c(0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0),
+          c(0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0),
+          c(0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0),
+          c(0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0),
+          c(0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0),
+          c(0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0),
+          c(0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0),
+          c(0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0),
+          c(0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0),
+          c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0),
+          c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1)
+          )
+
+# Laços para várias análises
+for(i in 1:length(cob)){
+        print("-----------------------------------------")
+        print(paste(cob[i]))
+        print("-----------------------------------------")
+        
+        # Criando dados auxiliar
+        da<-dados %>% 
+          filter(cobertura==cob[i])
+ 
+        # Criando os dados com o trat adicional
+        add <- adicional
+        
+        # Juntandos os dois dados para o desdobramento de graus de liberdade
+        dd<-rbind(da,add)
+        y<-dd$produção
+        trat<-as.factor(paste(dd$PDS,dd$ciclo,sep="_"))
+        contrasts(trat) <- contrastes
+        modelo.contrastes<-aov(y~trat)
+        print("------------------ Fatorial vs Testemunha adicional -------------")
+        print(summary(modelo.contrastes, 
+        split= list(trat= 
+                      list("Add vs. Trat (ciclo_1)"=1,
+                           "Add vs. Trat (ciclo_2)"=2,
+                           "Add vs. Trat (ciclo_3)"=3,
+                           "Add vs. Trat (ciclo_4)"=4,
+                           "Fatorial"= 5:15)))
+        )
+        cat("\n")
+}
+```
+
+### 2.3.3 Análise em faixas
+
+```{r}
+# Laços para várias análises
+for(i in 1:length(cob)){
+        print("-----------------------------------------")
+        print(paste(cob[i]))
+        print("-----------------------------------------")
+        
+        # Criando dados auxiliar
+        da<-dados %>% 
+          filter(cobertura==cob[i])
+ 
+        # Criando os dados com o trat adicional
+        add <- adicional
+        
+        # Juntandos os dois dados para o desdobramento de graus de liberdade
+ 
+        print("------------------ Análise em Faixas -------------")
+        faixas(da$PDS,da$ciclo,da$bloco,da$produção,
+                    quali=c(TRUE,TRUE), mcomp = "tukey", 
+                    fac.names = c("PDS","CICLO"))
+      
+       cat("\n")
+}
+```
+
+## 2.4 Modelos Lineares Mistos
+```{r}
+# for(i in 1:length(cob)){
+#         print("-----------------------------------------")
+#         print(paste(cob[i]))
+#         print("-----------------------------------------")
+#         
+#         # Criando dados auxiliar
+#         da<-dados %>% 
+#           filter(cobertura==cob[i])
+#  
+#         # Criando os dados com o trat adicional
+#         add <- adicional 
+#         
+#         # Juntandos os dois dados para o desdobramento de graus de liberdade
+#         dd<-rbind(da,add)
+#         y<-dd$iqs
+#         trat<-as.factor(paste(dd$PDS,dd$ciclo,sep="_"))
+#         
+#         # Verificando a normalidade dos dados
+#         dd %>% 
+#           ggplot(aes(sample = produção))+
+#           stat_qq()+
+#           stat_qq_line()+
+#           facet_wrap(~PDS)
+#         
+#         m0<-lm(produção~PDS+ciclo+PDS:ciclo, data=dd)
+#         m1<-lmer(produção~PDS+ciclo+PDS:ciclo + (bloco|ciclo), data=dd)
+#         m2<-lmer(produção~PDS+ciclo+PDS:ciclo + (1|ciclo), data=dd)
+#         anova(m1, m2, refit=FALSE)
+#         anova(m2, m0, refit=TRUE)
+#         m3<-lmer(produção~PDS+ciclo+PDS:ciclo + (1|ciclo), data=dd, REML=F)
+#         m4<-lmer(produção~PDS+ciclo + (1|ciclo), data=dd, REML=F)
+#         m5<-lmer(produção~PDS + (1|ciclo), data=dd, REML=F)
+#         m6<-lmer(produção~ciclo + (1|ciclo), data=dd, REML=F)
+# 
+#         anova(m3,m4)
+#         anova(m3,m5)
+#         anova(m3,m6)
+#         modelo<-lmer(produção~as.factor(PDS)+as.factor(ciclo)+as.factor(PDS):as.factor(ciclo) + (1|ciclo), data=dd)
+#         summary(modelo)
+#         print(anova(modelo))
+#         plot(modelo)
+#         
+#         #criando objeto com os coeficientes do modelo (efeitos fixos)
+#         fixLMM <- fixef(modelo)
+# 
+#         #criando objeto com os coeficientes do modelo (efeitos fixos)
+#         randLMM <- coef(modelo)
+#         cat("\n")
+#         
+#       pwc <- dd %>%
+#       group_by(ciclo) %>%
+#       pairwise_t_test(produção ~ PDS, p.adjust.method = "bonferroni")
+#       print(pwc,all=TRUE)
+# }
+```
+
+# 3 Atributos do solo
+## 3.1 Validação de dados
+### Entrada dos dados
+```{r}
+dados<-read.table(
+  "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/horizontes.txt",
+  h=TRUE,sep="\t")
+glimpse(dados) # Vislumbre
+
+levels(factor(dados$ciclo))
+levels(factor(dados$tratamento))
+dados<-dados %>% 
+  mutate(linha_entrelinha = if_else(linha_entrelinha=="el","entrelinha","linha"))
+levels(factor(dados$linha_entrelinha))
+levels(factor(dados$profundidade))
+```
+
+# 4 Biomassa Radicular
+## 4.1 Validação de dados
+### Entrada dos dados
+```{r}
+dados<-read.table(
+  "https://raw.githubusercontent.com/arpanosso/zgm_feagri/main/dados/biomassaRad.txt",
+  h=TRUE,sep="\t")
+names(dados)<-c("ciclo","tratamento","linha_entrelinha","profundidade","bloco","biomassa_raizes")
+glimpse(dados) # Vislumbre
+levels(factor(dados$ciclo))
+levels(factor(dados$tratamento))
+dados<-dados %>% 
+  mutate(linha_entrelinha = if_else(linha_entrelinha=="el","entrelinha",if_else(linha_entrelinha=="l","linha","ca")))
+levels(factor(dados$linha_entrelinha))
 ```
 
