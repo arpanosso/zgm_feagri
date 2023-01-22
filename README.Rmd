@@ -1,0 +1,171 @@
+---
+output: github_document
+---
+
+# 1 Índice de Qualidade do Solo (IQS)
+
+```{r message=FALSE,error=FALSE}
+# Caregando os pacotes no R
+library(tidyverse)
+library(nlme)
+library(psych)
+library(agricolae)
+library(ExpDes.pt)
+library(pals)
+library(car)
+library(multcompView)
+library(lsmeans)
+library(rcompanion)
+library(ggpubr)
+library(rstatix)
+library(lme4)
+library(emmeans)
+library(lmerTest)
+```
+
+# 3 Atributos do solo
+## 3.1 Validação de dados
+### Entrada dos dados
+```{r}
+dados<-read.table(
+  "dados/horizontes.txt",
+  h=TRUE,sep="\t")
+glimpse(dados) # Vislumbre
+
+levels(factor(dados$ciclo))
+levels(factor(dados$tratamento))
+levels(factor(dados$linha_entrelinha))
+levels(factor(dados$profundidade))
+
+
+dados <- dados %>% 
+  mutate(
+    cobertura = sub('\\_.*','',tratamento),
+    PDS = sub('.*\\_','',tratamento)
+  )
+
+# Separando o tratamento adicional
+adicional <- dados %>% 
+  filter(tratamento == "sem cobertura_pc")
+
+# Dados sem o tratamento adicional
+dados<- dados %>% 
+  filter(tratamento != "sem cobertura_pc")
+```
+
+```{r}
+# Gráfico de médias e barras e erro-pdarão da média
+names(dados)
+atributos<-names(dados[27:(length(dados)-2)])
+```
+
+
+
+## 3.3 Análise de variância
+
+```{r}
+# Chaves de agrupamento
+cob<-levels(factor(dados$cobertura))
+prof<-levels(factor(dados$profundidade)) 
+posi<-levels(factor(dados$linha_entrelinha)) 
+posição<-levels(factor(dados$linha_entrelinha)) 
+```
+### 3.3.2 Desdobramento por contrastes
+
+Esse desdobramento é utilizado para comparação entre a testemunha e os tratamentos fatoriais em cada ciclo de avaliação.
+
+```{r}
+# Definindo a matriz de coeficientes dos contrastes
+contrastes<-cbind(
+          c(-3,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0),
+          c(0,-3,0,0,0,1,0,0,0,1,0,0,0,1,0,0),
+          c(0,0,-3,0,0,0,1,0,0,0,1,0,0,0,1,0),
+          c(0,0,0,-3,0,0,0,1,0,0,0,1,0,0,0,1),
+          c(0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0),
+          c(0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0),
+          c(0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0),
+          c(0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0),
+          c(0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0),
+          c(0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0),
+          c(0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0),
+          c(0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0),
+          c(0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0),
+          c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0),
+          c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1)
+          )
+
+# Laços para várias análises
+for(l in 1:length(atributos)){
+  for(i in 1:length(cob)){
+    for(j in 1:length(prof)){
+        for(k in 1:length(posição)){
+          print("-----------------------------------------")
+          print(paste(atributos[l],"-",cob[i],prof[j],posição[k],sep=" "))
+          print("-----------------------------------------")
+          
+          # Criando dados auxiliar
+          da1<-dados %>% 
+            filter(cobertura==cob[i],
+                  profundidade==prof[j])
+          
+          fl<-(da1$linha_entrelinha == posi[k])
+          da1 <- da1[fl,]
+          # Criando os dados com o trat adicional
+          add <- adicional %>% 
+            filter(profundidade==prof[j])
+          fl<-(add$linha_entrelinha == posi[k])
+          add <- add[fl,]
+          
+          # Juntandos os dois dados para o desdobramento de graus de liberdade
+          dd<-rbind(da1,add)
+          y<-dd[,5+l]
+          trat<-as.factor(paste(dd$PDS,dd$ciclo,sep="_"))
+          contrasts(trat) <- contrastes
+          modelo.contrastes<-aov(y~trat)
+          print("------------------ Fatorial vs Testemunha adicional -------------")
+          print(summary(modelo.contrastes, 
+          split= list(trat= 
+                        list("Add vs. Trat (ciclo_1)"=1,
+                             "Add vs. Trat (ciclo_2)"=2,
+                             "Add vs. Trat (ciclo_3)"=3,
+                             "Add vs. Trat (ciclo_4)"=4,
+                             "Fatorial"= 5:15)))
+          )
+          cat("\n")
+  }}}
+}
+```
+
+### 3.3.3 Análise em faixas
+
+```{r}
+for(l in 1:length(atributos)){
+  for(i in 1:length(cob)){
+    for(j in 1:length(prof)){
+        for(k in 1:length(posição)){
+          print("-----------------------------------------")
+          print(paste(atributos[l],"-",cob[i],prof[j],posição[k],sep=" "))
+          print("-----------------------------------------")
+          
+          # Criando dados auxiliar
+          da1<-dados %>% 
+            filter(cobertura==cob[i],
+                  profundidade==prof[j])
+          
+          fl<-(da1$linha_entrelinha == posi[k])
+          da1 <- da1[fl,]
+          y<-da1[,5+l]
+
+      print("------------------ Análise em Faixas -------------")
+      
+      if(sd(y)==0 | is.na(sd(y))) {print("dados sem variação")
+        }else{
+      faixas(da1$PDS,da1$ciclo,da1$bloco,y,
+                    quali=c(TRUE,TRUE), mcomp = "tukey",
+                    fac.names = c("PDS","CICLO"))}
+      
+       cat("\n")
+  }}}
+}
+```
+
