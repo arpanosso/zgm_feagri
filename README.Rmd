@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-# 1 Índice de Qualidade do Solo (IQS)
+# Análise para N
 
 ```{r message=FALSE,error=FALSE}
 # Caregando os pacotes no R
@@ -23,8 +23,6 @@ library(emmeans)
 library(lmerTest)
 ```
 
-# 3 Atributos do solo
-## 3.1 Validação de dados
 ### Entrada dos dados
 ```{r}
 dados<-read.table(
@@ -56,12 +54,12 @@ dados<- dados %>%
 ```{r}
 # Gráfico de médias e barras e erro-pdarão da média
 names(dados)
-atributos<-names(dados[27:(length(dados)-2)])
+atributos<-names(dados[29:(length(dados)-2)])
 ```
 
 
 
-## 3.3 Análise de variância
+## Análise de variância
 
 ```{r}
 # Chaves de agrupamento
@@ -70,7 +68,7 @@ prof<-levels(factor(dados$profundidade))
 posi<-levels(factor(dados$linha_entrelinha)) 
 posição<-levels(factor(dados$linha_entrelinha)) 
 ```
-### 3.3.2 Desdobramento por contrastes
+### Desdobramento por contrastes
 
 Esse desdobramento é utilizado para comparação entre a testemunha e os tratamentos fatoriais em cada ciclo de avaliação.
 
@@ -136,7 +134,7 @@ for(l in 1:length(atributos)){
 }
 ```
 
-### 3.3.3 Análise em faixas
+### Análise em faixas
 
 ```{r}
 for(l in 1:length(atributos)){

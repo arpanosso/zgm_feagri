@@ -1,5 +1,5 @@
 
-# 1 Índice de Qualidade do Solo (IQS)
+# Análise para N
 
 ``` r
 # Caregando os pacotes no R
@@ -76,10 +76,6 @@ library(lmerTest)
 ```
 
     ## Warning: package 'lmerTest' was built under R version 4.1.3
-
-# 3 Atributos do solo
-
-## 3.1 Validação de dados
 
 ### Entrada dos dados
 
@@ -185,10 +181,10 @@ names(dados)
     ## [31] "est_n"               "cobertura"           "PDS"
 
 ``` r
-atributos<-names(dados[27:(length(dados)-2)])
+atributos<-names(dados[29:(length(dados)-2)])
 ```
 
-## 3.3 Análise de variância
+## Análise de variância
 
 ``` r
 # Chaves de agrupamento
@@ -198,7 +194,7 @@ posi<-levels(factor(dados$linha_entrelinha))
 posição<-levels(factor(dados$linha_entrelinha)) 
 ```
 
-### 3.3.2 Desdobramento por contrastes
+### Desdobramento por contrastes
 
 Esse desdobramento é utilizado para comparação entre a testemunha e os
 tratamentos fatoriais em cada ciclo de avaliação.
@@ -266,7 +262,7 @@ for(l in 1:length(atributos)){
 ```
 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 0_20 el"
+    ## [1] "n - amendoim 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value   Pr(>F)    
@@ -281,7 +277,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 0_20 l"
+    ## [1] "n - amendoim 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value   Pr(>F)    
@@ -296,7 +292,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 20_30 el"
+    ## [1] "n - amendoim 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq Mean Sq F value  Pr(>F)   
@@ -311,7 +307,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 20_30 l"
+    ## [1] "n - amendoim 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value  Pr(>F)   
@@ -326,7 +322,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 30_70 el"
+    ## [1] "n - amendoim 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)  
@@ -341,7 +337,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 30_70 l"
+    ## [1] "n - amendoim 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq Mean Sq F value  Pr(>F)   
@@ -356,7 +352,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 0_20 el"
+    ## [1] "n - crotalária 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value   Pr(>F)    
@@ -371,7 +367,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 0_20 l"
+    ## [1] "n - crotalária 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value  Pr(>F)   
@@ -386,7 +382,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 20_30 el"
+    ## [1] "n - crotalária 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value Pr(>F)  
@@ -401,7 +397,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 20_30 l"
+    ## [1] "n - crotalária 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq Mean Sq F value  Pr(>F)   
@@ -416,7 +412,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 30_70 el"
+    ## [1] "n - crotalária 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq  Mean Sq F value Pr(>F)
@@ -429,7 +425,7 @@ for(l in 1:length(atributos)){
     ## Residuals                      32 0.3972 0.012413               
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 30_70 l"
+    ## [1] "n - crotalária 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value Pr(>F)  
@@ -444,7 +440,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 0_20 el"
+    ## [1] "n - milheto 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value   Pr(>F)    
@@ -459,7 +455,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 0_20 l"
+    ## [1] "n - milheto 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value  Pr(>F)   
@@ -474,7 +470,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 20_30 el"
+    ## [1] "n - milheto 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq Mean Sq F value  Pr(>F)   
@@ -489,7 +485,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 20_30 l"
+    ## [1] "n - milheto 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq Mean Sq F value Pr(>F)  
@@ -504,7 +500,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 30_70 el"
+    ## [1] "n - milheto 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq  Mean Sq F value Pr(>F)
@@ -517,7 +513,7 @@ for(l in 1:length(atributos)){
     ## Residuals                      32 0.4215 0.013173               
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 30_70 l"
+    ## [1] "n - milheto 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value Pr(>F)  
@@ -532,7 +528,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 0_20 el"
+    ## [1] "n - sorgo 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value   Pr(>F)    
@@ -547,7 +543,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 0_20 l"
+    ## [1] "n - sorgo 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value Pr(>F)  
@@ -562,7 +558,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 20_30 el"
+    ## [1] "n - sorgo 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq  Mean Sq F value Pr(>F)  
@@ -577,7 +573,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 20_30 l"
+    ## [1] "n - sorgo 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq Mean Sq F value  Pr(>F)   
@@ -592,7 +588,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 30_70 el"
+    ## [1] "n - sorgo 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq  Mean Sq F value Pr(>F)
@@ -605,7 +601,7 @@ for(l in 1:length(atributos)){
     ## Residuals                      32 0.3752 0.011725               
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 30_70 l"
+    ## [1] "n - sorgo 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df  Sum Sq Mean Sq F value  Pr(>F)   
@@ -620,7 +616,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 0_20 el"
+    ## [1] "n_g_kg - amendoim 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df   Sum Sq   Mean Sq F value   Pr(>F)    
@@ -635,7 +631,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 0_20 l"
+    ## [1] "n_g_kg - amendoim 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df   Sum Sq   Mean Sq F value   Pr(>F)    
@@ -650,7 +646,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 20_30 el"
+    ## [1] "n_g_kg - amendoim 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value Pr(>F)  
@@ -665,7 +661,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 20_30 l"
+    ## [1] "n_g_kg - amendoim 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value Pr(>F)
@@ -678,7 +674,7 @@ for(l in 1:length(atributos)){
     ## Residuals                      32 0.0011333 3.542e-05               
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 30_70 el"
+    ## [1] "n_g_kg - amendoim 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq  Mean Sq F value   Pr(>F)    
@@ -693,7 +689,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 30_70 l"
+    ## [1] "n_g_kg - amendoim 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value Pr(>F)  
@@ -708,7 +704,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 0_20 el"
+    ## [1] "n_g_kg - crotalária 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df   Sum Sq   Mean Sq F value   Pr(>F)    
@@ -723,7 +719,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 0_20 l"
+    ## [1] "n_g_kg - crotalária 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)    
@@ -738,7 +734,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 20_30 el"
+    ## [1] "n_g_kg - crotalária 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value Pr(>F)  
@@ -753,7 +749,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 20_30 l"
+    ## [1] "n_g_kg - crotalária 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value Pr(>F)  
@@ -768,7 +764,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 30_70 el"
+    ## [1] "n_g_kg - crotalária 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
@@ -783,7 +779,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 30_70 l"
+    ## [1] "n_g_kg - crotalária 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value   Pr(>F)    
@@ -798,7 +794,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 0_20 el"
+    ## [1] "n_g_kg - milheto 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df   Sum Sq   Mean Sq F value   Pr(>F)    
@@ -813,7 +809,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 0_20 l"
+    ## [1] "n_g_kg - milheto 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value   Pr(>F)    
@@ -828,7 +824,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 20_30 el"
+    ## [1] "n_g_kg - milheto 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value   Pr(>F)    
@@ -843,7 +839,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 20_30 l"
+    ## [1] "n_g_kg - milheto 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
@@ -858,7 +854,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 30_70 el"
+    ## [1] "n_g_kg - milheto 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value   Pr(>F)    
@@ -873,7 +869,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 30_70 l"
+    ## [1] "n_g_kg - milheto 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
@@ -888,7 +884,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 0_20 el"
+    ## [1] "n_g_kg - sorgo 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df   Sum Sq   Mean Sq F value   Pr(>F)    
@@ -903,7 +899,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 0_20 l"
+    ## [1] "n_g_kg - sorgo 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value   Pr(>F)    
@@ -918,7 +914,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 20_30 el"
+    ## [1] "n_g_kg - sorgo 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value   Pr(>F)    
@@ -933,7 +929,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 20_30 l"
+    ## [1] "n_g_kg - sorgo 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value Pr(>F)  
@@ -948,7 +944,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 30_70 el"
+    ## [1] "n_g_kg - sorgo 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
@@ -963,7 +959,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 30_70 l"
+    ## [1] "n_g_kg - sorgo 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df    Sum Sq   Mean Sq F value Pr(>F)  
@@ -978,7 +974,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 0_20 el"
+    ## [1] "est_n - amendoim 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value   Pr(>F)    
@@ -993,7 +989,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 0_20 l"
+    ## [1] "est_n - amendoim 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value   Pr(>F)    
@@ -1008,7 +1004,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 20_30 el"
+    ## [1] "est_n - amendoim 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value  Pr(>F)   
@@ -1023,7 +1019,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 20_30 l"
+    ## [1] "est_n - amendoim 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value  Pr(>F)   
@@ -1038,7 +1034,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 30_70 el"
+    ## [1] "est_n - amendoim 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)  
@@ -1053,7 +1049,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 30_70 l"
+    ## [1] "est_n - amendoim 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value  Pr(>F)   
@@ -1068,7 +1064,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 0_20 el"
+    ## [1] "est_n - crotalária 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value   Pr(>F)    
@@ -1083,7 +1079,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 0_20 l"
+    ## [1] "est_n - crotalária 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value  Pr(>F)   
@@ -1098,7 +1094,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 20_30 el"
+    ## [1] "est_n - crotalária 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)  
@@ -1113,7 +1109,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 20_30 l"
+    ## [1] "est_n - crotalária 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value  Pr(>F)   
@@ -1128,7 +1124,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 30_70 el"
+    ## [1] "est_n - crotalária 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)
@@ -1141,7 +1137,7 @@ for(l in 1:length(atributos)){
     ## Residuals                      32 1266.6   39.58               
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 30_70 l"
+    ## [1] "est_n - crotalária 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)  
@@ -1156,7 +1152,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 0_20 el"
+    ## [1] "est_n - milheto 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value   Pr(>F)    
@@ -1171,7 +1167,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 0_20 l"
+    ## [1] "est_n - milheto 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value   Pr(>F)    
@@ -1186,7 +1182,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 20_30 el"
+    ## [1] "est_n - milheto 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value  Pr(>F)   
@@ -1201,7 +1197,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 20_30 l"
+    ## [1] "est_n - milheto 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)  
@@ -1216,7 +1212,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 30_70 el"
+    ## [1] "est_n - milheto 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)
@@ -1229,7 +1225,7 @@ for(l in 1:length(atributos)){
     ## Residuals                      32 1332.5   41.64               
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 30_70 l"
+    ## [1] "est_n - milheto 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)  
@@ -1244,7 +1240,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 0_20 el"
+    ## [1] "est_n - sorgo 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value   Pr(>F)    
@@ -1259,7 +1255,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 0_20 l"
+    ## [1] "est_n - sorgo 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)  
@@ -1274,7 +1270,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 20_30 el"
+    ## [1] "est_n - sorgo 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)  
@@ -1289,7 +1285,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 20_30 l"
+    ## [1] "est_n - sorgo 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value  Pr(>F)   
@@ -1304,7 +1300,7 @@ for(l in 1:length(atributos)){
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 30_70 el"
+    ## [1] "est_n - sorgo 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)
@@ -1317,7 +1313,7 @@ for(l in 1:length(atributos)){
     ## Residuals                      32 1175.0   36.72               
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 30_70 l"
+    ## [1] "est_n - sorgo 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
     ##                                Df Sum Sq Mean Sq F value Pr(>F)   
@@ -1330,728 +1326,8 @@ for(l in 1:length(atributos)){
     ## Residuals                      32  487.8   15.24                  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df Sum Sq Mean Sq   F value  Pr(>F)    
-    ## trat                           15   6142   409.4 9.552e+27 < 2e-16 ***
-    ##   trat: Add vs. Trat (ciclo_1)  1      0     0.0 1.215e+01 0.00145 ** 
-    ##   trat: Add vs. Trat (ciclo_2)  1      0     0.0 0.000e+00 1.00000    
-    ##   trat: Add vs. Trat (ciclo_3)  1      0     0.0 0.000e+00 0.98811    
-    ##   trat: Add vs. Trat (ciclo_4)  1    546   545.9 1.274e+28 < 2e-16 ***
-    ##   trat: Fatorial               11   5596   508.7 1.187e+28 < 2e-16 ***
-    ## Residuals                      32      0     0.0                      
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 5.937e-25 3.96e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 4.750e-25 4.75e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 1.187e-25 1.08e-26   0.273 0.98689   
-    ## Residuals                      32 1.267e-24 3.96e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.745e-24 1.163e-25   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.396e-24 1.396e-24  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 3.490e-25 3.170e-26   0.273 0.98689   
-    ## Residuals                      32 3.722e-24 1.163e-25                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.745e-24 1.163e-25   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.396e-24 1.396e-24  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 3.490e-25 3.170e-26   0.273 0.98689   
-    ## Residuals                      32 3.722e-24 1.163e-25                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 4.362e-25 2.91e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 3.490e-25 3.49e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 8.720e-26 7.90e-27   0.273 0.98689   
-    ## Residuals                      32 9.306e-25 2.91e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 4.362e-25 2.91e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 3.490e-25 3.49e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 8.720e-26 7.90e-27   0.273 0.98689   
-    ## Residuals                      32 9.306e-25 2.91e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df Sum Sq Mean Sq   F value  Pr(>F)    
-    ## trat                           15   6142   409.4 9.552e+27 < 2e-16 ***
-    ##   trat: Add vs. Trat (ciclo_1)  1      0     0.0 1.215e+01 0.00145 ** 
-    ##   trat: Add vs. Trat (ciclo_2)  1      0     0.0 0.000e+00 1.00000    
-    ##   trat: Add vs. Trat (ciclo_3)  1      0     0.0 0.000e+00 0.98811    
-    ##   trat: Add vs. Trat (ciclo_4)  1    546   545.9 1.274e+28 < 2e-16 ***
-    ##   trat: Fatorial               11   5596   508.7 1.187e+28 < 2e-16 ***
-    ## Residuals                      32      0     0.0                      
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 5.937e-25 3.96e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 4.750e-25 4.75e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 1.187e-25 1.08e-26   0.273 0.98689   
-    ## Residuals                      32 1.267e-24 3.96e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.745e-24 1.163e-25   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.396e-24 1.396e-24  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 3.490e-25 3.170e-26   0.273 0.98689   
-    ## Residuals                      32 3.722e-24 1.163e-25                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.745e-24 1.163e-25   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.396e-24 1.396e-24  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 3.490e-25 3.170e-26   0.273 0.98689   
-    ## Residuals                      32 3.722e-24 1.163e-25                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 4.362e-25 2.91e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 3.490e-25 3.49e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 8.720e-26 7.90e-27   0.273 0.98689   
-    ## Residuals                      32 9.306e-25 2.91e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 4.362e-25 2.91e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 3.490e-25 3.49e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 8.720e-26 7.90e-27   0.273 0.98689   
-    ## Residuals                      32 9.306e-25 2.91e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df Sum Sq Mean Sq   F value  Pr(>F)    
-    ## trat                           15   6142   409.4 9.552e+27 < 2e-16 ***
-    ##   trat: Add vs. Trat (ciclo_1)  1      0     0.0 1.215e+01 0.00145 ** 
-    ##   trat: Add vs. Trat (ciclo_2)  1      0     0.0 0.000e+00 1.00000    
-    ##   trat: Add vs. Trat (ciclo_3)  1      0     0.0 0.000e+00 0.98811    
-    ##   trat: Add vs. Trat (ciclo_4)  1    546   545.9 1.274e+28 < 2e-16 ***
-    ##   trat: Fatorial               11   5596   508.7 1.187e+28 < 2e-16 ***
-    ## Residuals                      32      0     0.0                      
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 5.937e-25 3.96e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 4.750e-25 4.75e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 1.187e-25 1.08e-26   0.273 0.98689   
-    ## Residuals                      32 1.267e-24 3.96e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.745e-24 1.163e-25   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.396e-24 1.396e-24  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 3.490e-25 3.170e-26   0.273 0.98689   
-    ## Residuals                      32 3.722e-24 1.163e-25                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.745e-24 1.163e-25   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.396e-24 1.396e-24  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 3.490e-25 3.170e-26   0.273 0.98689   
-    ## Residuals                      32 3.722e-24 1.163e-25                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 4.362e-25 2.91e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 3.490e-25 3.49e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 8.720e-26 7.90e-27   0.273 0.98689   
-    ## Residuals                      32 9.306e-25 2.91e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 4.362e-25 2.91e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 3.490e-25 3.49e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 8.720e-26 7.90e-27   0.273 0.98689   
-    ## Residuals                      32 9.306e-25 2.91e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df Sum Sq Mean Sq   F value  Pr(>F)    
-    ## trat                           15   6142   409.4 9.552e+27 < 2e-16 ***
-    ##   trat: Add vs. Trat (ciclo_1)  1      0     0.0 1.215e+01 0.00145 ** 
-    ##   trat: Add vs. Trat (ciclo_2)  1      0     0.0 0.000e+00 1.00000    
-    ##   trat: Add vs. Trat (ciclo_3)  1      0     0.0 0.000e+00 0.98811    
-    ##   trat: Add vs. Trat (ciclo_4)  1    546   545.9 1.274e+28 < 2e-16 ***
-    ##   trat: Fatorial               11   5596   508.7 1.187e+28 < 2e-16 ***
-    ## Residuals                      32      0     0.0                      
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 5.937e-25 3.96e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 4.750e-25 4.75e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 1.187e-25 1.08e-26   0.273 0.98689   
-    ## Residuals                      32 1.267e-24 3.96e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.745e-24 1.163e-25   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.396e-24 1.396e-24  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 3.490e-25 3.170e-26   0.273 0.98689   
-    ## Residuals                      32 3.722e-24 1.163e-25                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.745e-24 1.163e-25   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.396e-24 1.396e-24  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 3.490e-25 3.170e-26   0.273 0.98689   
-    ## Residuals                      32 3.722e-24 1.163e-25                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 4.362e-25 2.91e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 3.490e-25 3.49e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 8.720e-26 7.90e-27   0.273 0.98689   
-    ## Residuals                      32 9.306e-25 2.91e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq  Mean Sq F value  Pr(>F)   
-    ## trat                           15 4.362e-25 2.91e-26   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 3.490e-25 3.49e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.00e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 8.720e-26 7.90e-27   0.273 0.98689   
-    ## Residuals                      32 9.306e-25 2.91e-26                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df Sum Sq Mean Sq   F value  Pr(>F)    
-    ## trat                           15  3.591  0.2394 5.159e+25 < 2e-16 ***
-    ##   trat: Add vs. Trat (ciclo_1)  1  0.000  0.0000 1.200e+01 0.00154 ** 
-    ##   trat: Add vs. Trat (ciclo_2)  1  0.000  0.0000 0.000e+00 1.00000    
-    ##   trat: Add vs. Trat (ciclo_3)  1  0.000  0.0000 0.000e+00 0.99903    
-    ##   trat: Add vs. Trat (ciclo_4)  1  0.319  0.3192 6.879e+25 < 2e-16 ***
-    ##   trat: Fatorial               11  3.272  0.2975 6.410e+25 < 2e-16 ***
-    ## Residuals                      32  0.000  0.0000                      
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.091e-25 7.270e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 8.724e-26 8.724e-26  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.181e-26 1.980e-27   0.273 0.98689   
-    ## Residuals                      32 2.326e-25 7.270e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.091e-25 7.270e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 8.724e-26 8.724e-26  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.181e-26 1.980e-27   0.273 0.98689   
-    ## Residuals                      32 2.326e-25 7.270e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df Sum Sq Mean Sq   F value  Pr(>F)    
-    ## trat                           15  3.591  0.2394 5.159e+25 < 2e-16 ***
-    ##   trat: Add vs. Trat (ciclo_1)  1  0.000  0.0000 1.200e+01 0.00154 ** 
-    ##   trat: Add vs. Trat (ciclo_2)  1  0.000  0.0000 0.000e+00 1.00000    
-    ##   trat: Add vs. Trat (ciclo_3)  1  0.000  0.0000 0.000e+00 0.99903    
-    ##   trat: Add vs. Trat (ciclo_4)  1  0.319  0.3192 6.879e+25 < 2e-16 ***
-    ##   trat: Fatorial               11  3.272  0.2975 6.410e+25 < 2e-16 ***
-    ## Residuals                      32  0.000  0.0000                      
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.091e-25 7.270e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 8.724e-26 8.724e-26  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.181e-26 1.980e-27   0.273 0.98689   
-    ## Residuals                      32 2.326e-25 7.270e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.091e-25 7.270e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 8.724e-26 8.724e-26  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.181e-26 1.980e-27   0.273 0.98689   
-    ## Residuals                      32 2.326e-25 7.270e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df Sum Sq Mean Sq   F value  Pr(>F)    
-    ## trat                           15  3.591  0.2394 5.159e+25 < 2e-16 ***
-    ##   trat: Add vs. Trat (ciclo_1)  1  0.000  0.0000 1.200e+01 0.00154 ** 
-    ##   trat: Add vs. Trat (ciclo_2)  1  0.000  0.0000 0.000e+00 1.00000    
-    ##   trat: Add vs. Trat (ciclo_3)  1  0.000  0.0000 0.000e+00 0.99903    
-    ##   trat: Add vs. Trat (ciclo_4)  1  0.319  0.3192 6.879e+25 < 2e-16 ***
-    ##   trat: Fatorial               11  3.272  0.2975 6.410e+25 < 2e-16 ***
-    ## Residuals                      32  0.000  0.0000                      
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.091e-25 7.270e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 8.724e-26 8.724e-26  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.181e-26 1.980e-27   0.273 0.98689   
-    ## Residuals                      32 2.326e-25 7.270e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.091e-25 7.270e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 8.724e-26 8.724e-26  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.181e-26 1.980e-27   0.273 0.98689   
-    ## Residuals                      32 2.326e-25 7.270e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df Sum Sq Mean Sq   F value  Pr(>F)    
-    ## trat                           15  3.591  0.2394 5.159e+25 < 2e-16 ***
-    ##   trat: Add vs. Trat (ciclo_1)  1  0.000  0.0000 1.200e+01 0.00154 ** 
-    ##   trat: Add vs. Trat (ciclo_2)  1  0.000  0.0000 0.000e+00 1.00000    
-    ##   trat: Add vs. Trat (ciclo_3)  1  0.000  0.0000 0.000e+00 0.99903    
-    ##   trat: Add vs. Trat (ciclo_4)  1  0.319  0.3192 6.879e+25 < 2e-16 ***
-    ##   trat: Fatorial               11  3.272  0.2975 6.410e+25 < 2e-16 ***
-    ## Residuals                      32  0.000  0.0000                      
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.091e-25 7.270e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 8.724e-26 8.724e-26  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.181e-26 1.980e-27   0.273 0.98689   
-    ## Residuals                      32 2.326e-25 7.270e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.091e-25 7.270e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 8.724e-26 8.724e-26  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.181e-26 1.980e-27   0.273 0.98689   
-    ## Residuals                      32 2.326e-25 7.270e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Fatorial vs Testemunha adicional -------------"
-    ##                                Df    Sum Sq   Mean Sq F value  Pr(>F)   
-    ## trat                           15 1.484e-25 9.900e-27   1.000 0.47859   
-    ##   trat: Add vs. Trat (ciclo_1)  1 1.187e-25 1.188e-25  12.000 0.00153 **
-    ##   trat: Add vs. Trat (ciclo_2)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_3)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Add vs. Trat (ciclo_4)  1 0.000e+00 0.000e+00   0.000 1.00000   
-    ##   trat: Fatorial               11 2.970e-26 2.700e-27   0.273 0.98689   
-    ## Residuals                      32 3.167e-25 9.900e-27                   
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-### 3.3.3 Análise em faixas
+### Análise em faixas
 
 ``` r
 for(l in 1:length(atributos)){
@@ -2085,7 +1361,7 @@ for(l in 1:length(atributos)){
 ```
 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 0_20 el"
+    ## [1] "n - amendoim 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2135,7 +1411,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 0_20 l"
+    ## [1] "n - amendoim 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2185,7 +1461,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 20_30 el"
+    ## [1] "n - amendoim 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2235,7 +1511,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 20_30 l"
+    ## [1] "n - amendoim 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2285,7 +1561,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 30_70 el"
+    ## [1] "n - amendoim 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2335,7 +1611,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - amendoim 30_70 l"
+    ## [1] "n - amendoim 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2384,7 +1660,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 0_20 el"
+    ## [1] "n - crotalária 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2434,7 +1710,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 0_20 l"
+    ## [1] "n - crotalária 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2483,7 +1759,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 20_30 el"
+    ## [1] "n - crotalária 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2530,7 +1806,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 20_30 l"
+    ## [1] "n - crotalária 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2579,7 +1855,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 30_70 el"
+    ## [1] "n - crotalária 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2628,7 +1904,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - crotalária 30_70 l"
+    ## [1] "n - crotalária 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2675,7 +1951,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 0_20 el"
+    ## [1] "n - milheto 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2808,7 +2084,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 0_20 l"
+    ## [1] "n - milheto 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -2943,7 +2219,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 20_30 el"
+    ## [1] "n - milheto 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3074,7 +2350,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 20_30 l"
+    ## [1] "n - milheto 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3121,7 +2397,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 30_70 el"
+    ## [1] "n - milheto 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3171,7 +2447,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - milheto 30_70 l"
+    ## [1] "n - milheto 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3220,7 +2496,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 0_20 el"
+    ## [1] "n - sorgo 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3353,7 +2629,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 0_20 l"
+    ## [1] "n - sorgo 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3402,7 +2678,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 20_30 el"
+    ## [1] "n - sorgo 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3451,7 +2727,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 20_30 l"
+    ## [1] "n - sorgo 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3584,7 +2860,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 30_70 el"
+    ## [1] "n - sorgo 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3633,7 +2909,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "c - sorgo 30_70 l"
+    ## [1] "n - sorgo 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3683,7 +2959,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 0_20 el"
+    ## [1] "n_g_kg - amendoim 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3732,7 +3008,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 0_20 l"
+    ## [1] "n_g_kg - amendoim 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3782,7 +3058,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 20_30 el"
+    ## [1] "n_g_kg - amendoim 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3829,7 +3105,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 20_30 l"
+    ## [1] "n_g_kg - amendoim 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3879,7 +3155,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 30_70 el"
+    ## [1] "n_g_kg - amendoim 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -3929,7 +3205,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - amendoim 30_70 l"
+    ## [1] "n_g_kg - amendoim 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4060,7 +3336,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 0_20 el"
+    ## [1] "n_g_kg - crotalária 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4110,7 +3386,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 0_20 l"
+    ## [1] "n_g_kg - crotalária 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4241,7 +3517,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 20_30 el"
+    ## [1] "n_g_kg - crotalária 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4291,7 +3567,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 20_30 l"
+    ## [1] "n_g_kg - crotalária 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4341,7 +3617,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 30_70 el"
+    ## [1] "n_g_kg - crotalária 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4392,7 +3668,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - crotalária 30_70 l"
+    ## [1] "n_g_kg - crotalária 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4525,7 +3801,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 0_20 el"
+    ## [1] "n_g_kg - milheto 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4572,7 +3848,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 0_20 l"
+    ## [1] "n_g_kg - milheto 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4622,7 +3898,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 20_30 el"
+    ## [1] "n_g_kg - milheto 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4673,7 +3949,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 20_30 l"
+    ## [1] "n_g_kg - milheto 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4806,7 +4082,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 30_70 el"
+    ## [1] "n_g_kg - milheto 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4857,7 +4133,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - milheto 30_70 l"
+    ## [1] "n_g_kg - milheto 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -4907,7 +4183,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 0_20 el"
+    ## [1] "n_g_kg - sorgo 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5042,7 +4318,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 0_20 l"
+    ## [1] "n_g_kg - sorgo 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5093,7 +4369,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 20_30 el"
+    ## [1] "n_g_kg - sorgo 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5224,7 +4500,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 20_30 l"
+    ## [1] "n_g_kg - sorgo 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5274,7 +4550,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 30_70 el"
+    ## [1] "n_g_kg - sorgo 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5325,7 +4601,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "est_c - sorgo 30_70 l"
+    ## [1] "n_g_kg - sorgo 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5456,7 +4732,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 0_20 el"
+    ## [1] "est_n - amendoim 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5506,7 +4782,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 0_20 l"
+    ## [1] "est_n - amendoim 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5556,7 +4832,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 20_30 el"
+    ## [1] "est_n - amendoim 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5606,7 +4882,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 20_30 l"
+    ## [1] "est_n - amendoim 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5656,7 +4932,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 30_70 el"
+    ## [1] "est_n - amendoim 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5706,7 +4982,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - amendoim 30_70 l"
+    ## [1] "est_n - amendoim 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5756,7 +5032,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 0_20 el"
+    ## [1] "est_n - crotalária 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5806,7 +5082,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 0_20 l"
+    ## [1] "est_n - crotalária 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5857,7 +5133,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 20_30 el"
+    ## [1] "est_n - crotalária 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5906,7 +5182,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 20_30 l"
+    ## [1] "est_n - crotalária 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -5956,7 +5232,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 30_70 el"
+    ## [1] "est_n - crotalária 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6005,7 +5281,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - crotalária 30_70 l"
+    ## [1] "est_n - crotalária 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6054,7 +5330,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 0_20 el"
+    ## [1] "est_n - milheto 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6187,7 +5463,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 0_20 l"
+    ## [1] "est_n - milheto 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6322,7 +5598,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 20_30 el"
+    ## [1] "est_n - milheto 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6453,7 +5729,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 20_30 l"
+    ## [1] "est_n - milheto 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6500,7 +5776,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 30_70 el"
+    ## [1] "est_n - milheto 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6550,7 +5826,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - milheto 30_70 l"
+    ## [1] "est_n - milheto 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6597,7 +5873,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 0_20 el"
+    ## [1] "est_n - sorgo 0_20 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6730,7 +6006,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 0_20 l"
+    ## [1] "est_n - sorgo 0_20 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6779,7 +6055,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 20_30 el"
+    ## [1] "est_n - sorgo 20_30 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6829,7 +6105,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 20_30 l"
+    ## [1] "est_n - sorgo 20_30 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -6962,7 +6238,7 @@ for(l in 1:length(atributos)){
     ## ------------------------------------------------------------------------
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 30_70 el"
+    ## [1] "est_n - sorgo 30_70 el"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -7012,7 +6288,7 @@ for(l in 1:length(atributos)){
     ## 
     ## 
     ## [1] "-----------------------------------------"
-    ## [1] "n - sorgo 30_70 l"
+    ## [1] "est_n - sorgo 30_70 l"
     ## [1] "-----------------------------------------"
     ## [1] "------------------ Análise em Faixas -------------"
     ## ------------------------------------------------------------------------
@@ -7060,291 +6336,3 @@ for(l in 1:length(atributos)){
     ## 3      3 91.04667
     ## 4      4 92.62556
     ## ------------------------------------------------------------------------
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - amendoim 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - crotalária 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - milheto 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "n_g_kg - sorgo 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - amendoim 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - crotalária 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - milheto 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 0_20 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 0_20 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 20_30 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 20_30 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 30_70 el"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
-    ## 
-    ## [1] "-----------------------------------------"
-    ## [1] "est_n - sorgo 30_70 l"
-    ## [1] "-----------------------------------------"
-    ## [1] "------------------ Análise em Faixas -------------"
-    ## [1] "dados sem variação"
