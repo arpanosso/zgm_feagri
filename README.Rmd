@@ -4,14 +4,14 @@ output: github_document
 
 # Análise para N
 
-```{r message=FALSE,error=FALSE}
+```{r message=FALSE,error=FALSE,warning=FALSE}
 # Caregando os pacotes no R
 library(tidyverse)
 library(nlme)
 library(psych)
 library(agricolae)
 library(ExpDes.pt)
-library(pals)
+# library(pals)
 library(car)
 library(multcompView)
 library(lsmeans)
@@ -65,8 +65,8 @@ atributos<-names(dados[29:(length(dados)-2)])
 # Chaves de agrupamento
 cob<-levels(factor(dados$cobertura))
 prof<-levels(factor(dados$profundidade)) 
-posi<-levels(factor(dados$linha_entrelinha)) 
-posição<-levels(factor(dados$linha_entrelinha)) 
+# posi<-levels(factor(dados$linha_entrelinha)) 
+# posição<-levels(factor(dados$linha_entrelinha)) 
 ```
 ### Desdobramento por contrastes
 
@@ -96,9 +96,9 @@ contrastes<-cbind(
 for(l in 1:length(atributos)){
   for(i in 1:length(cob)){
     for(j in 1:length(prof)){
-        for(k in 1:length(posição)){
+        # for(k in 1:length(posição)){
           print("-----------------------------------------")
-          print(paste(atributos[l],"-",cob[i],prof[j],posição[k],sep=" "))
+          print(paste(atributos[l],"-",cob[i],prof[j],sep=" "))
           print("-----------------------------------------")
           
           # Criando dados auxiliar
@@ -106,13 +106,13 @@ for(l in 1:length(atributos)){
             filter(cobertura==cob[i],
                   profundidade==prof[j])
           
-          fl<-(da1$linha_entrelinha == posi[k])
-          da1 <- da1[fl,]
+          # fl<-(da1$linha_entrelinha == posi[k])
+          # da1 <- da1[fl,]
           # Criando os dados com o trat adicional
           add <- adicional %>% 
             filter(profundidade==prof[j])
-          fl<-(add$linha_entrelinha == posi[k])
-          add <- add[fl,]
+          # fl<-(add$linha_entrelinha == posi[k])
+          # add <- add[fl,]
           
           # Juntandos os dois dados para o desdobramento de graus de liberdade
           dd<-rbind(da1,add)
@@ -130,7 +130,8 @@ for(l in 1:length(atributos)){
                              "Fatorial"= 5:15)))
           )
           cat("\n")
-  }}}
+    # }
+    }}
 }
 ```
 
@@ -140,9 +141,9 @@ for(l in 1:length(atributos)){
 for(l in 1:length(atributos)){
   for(i in 1:length(cob)){
     for(j in 1:length(prof)){
-        for(k in 1:length(posição)){
+        # for(k in 1:length(posição)){
           print("-----------------------------------------")
-          print(paste(atributos[l],"-",cob[i],prof[j],posição[k],sep=" "))
+          print(paste(atributos[l],"-",cob[i],prof[j],sep=" "))
           print("-----------------------------------------")
           
           # Criando dados auxiliar
@@ -150,8 +151,8 @@ for(l in 1:length(atributos)){
             filter(cobertura==cob[i],
                   profundidade==prof[j])
           
-          fl<-(da1$linha_entrelinha == posi[k])
-          da1 <- da1[fl,]
+          # fl<-(da1$linha_entrelinha == posi[k])
+          # da1 <- da1[fl,]
           y<-da1[,5+l]
 
       print("------------------ Análise em Faixas -------------")
@@ -163,7 +164,8 @@ for(l in 1:length(atributos)){
                     fac.names = c("PDS","CICLO"))}
       
        cat("\n")
-  }}}
+    # }
+    }}
 }
 ```
 
