@@ -25,14 +25,16 @@ library(lmerTest)
 
 ### Entrada dos dados
 ```{r}
-dados<-read.table(
-  "dados/horizontes.txt",
-  h=TRUE,sep="\t")
+# dados<-read.table(
+#   "dados/horizontes.txt",
+#   h=TRUE,sep="\t")
+
+dados <- readxl::read_xlsx("dados/Dados com média ponderada de Nitrogênio.xlsx")
 glimpse(dados) # Vislumbre
 
 levels(factor(dados$ciclo))
 levels(factor(dados$tratamento))
-levels(factor(dados$linha_entrelinha))
+# levels(factor(dados$linha_entrelinha))
 levels(factor(dados$profundidade))
 
 
@@ -54,7 +56,7 @@ dados<- dados %>%
 ```{r}
 # Gráfico de médias e barras e erro-pdarão da média
 names(dados)
-atributos<-names(dados[29:(length(dados)-2)])
+atributos<-names(dados[5:(length(dados)-2)])
 ```
 
 
@@ -116,7 +118,8 @@ for(l in 1:length(atributos)){
           
           # Juntandos os dois dados para o desdobramento de graus de liberdade
           dd<-rbind(da1,add)
-          y<-dd[,5+l]
+          dd <- as.data.frame(dd)
+          y<-dd[,5]
           trat<-as.factor(paste(dd$PDS,dd$ciclo,sep="_"))
           contrasts(trat) <- contrastes
           modelo.contrastes<-aov(y~trat)
@@ -153,7 +156,8 @@ for(l in 1:length(atributos)){
           
           # fl<-(da1$linha_entrelinha == posi[k])
           # da1 <- da1[fl,]
-          y<-da1[,5+l]
+          da1 <- as.data.frame(da1)
+          y<-da1[,5]
 
       print("------------------ Análise em Faixas -------------")
       
