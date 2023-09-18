@@ -29,9 +29,13 @@ library(lmerTest)
 #   "dados/horizontes.txt",
 #   h=TRUE,sep="\t")
 
-dados <- readxl::read_xlsx("dados/Dados com média ponderada de Nitrogênio.xlsx")
+dados <- readxl::read_xlsx("dados/Dados Est.C para rodar no R_Panosso.xlsx") %>% janitor::clean_names() 
+  
 glimpse(dados) # Vislumbre
+```
 
+
+```{r}
 levels(factor(dados$ciclo))
 levels(factor(dados$tratamento))
 # levels(factor(dados$linha_entrelinha))
